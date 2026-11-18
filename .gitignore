@@ -1,0 +1,3 @@
+secrets/
+nginx/certs/*.key
+*.pyc

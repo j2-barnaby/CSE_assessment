@@ -1,0 +1,3 @@
+NAME                   IMAGE                COMMAND                  SERVICE   CREATED          STATUS          PORTS
+original-app-flask-1   original-app-flask   "python app.py"          flask     11 minutes ago   Up 11 minutes   5000/tcp
+original-app-nginx-1   original-app-nginx   "/docker-entrypoint.…"   nginx     11 minutes ago   Up 11 minutes   80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp

@@ -1,0 +1,6 @@
+IMAGE                           ID             DISK USAGE   CONTENT SIZE   EXTRA
+majidockerid/uwe:application3   0f55c788fbbc        285MB         79.7MB        
+nginx:alpine                    fed7e14be83c       94.5MB         27.3MB        
+original-app-flask:latest       ed7b247d5a0e        285MB         79.7MB   U    
+original-app-nginx:latest       e54312ba8d49       93.6MB         26.4MB   U    
+python:3.13.0                   e95be0207505       1.49GB          397MB        

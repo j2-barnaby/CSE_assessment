@@ -1,0 +1,1 @@
+TESTFILE-12345 this is plaintext for Application_3

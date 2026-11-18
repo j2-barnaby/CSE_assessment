@@ -1,0 +1,29 @@
+flask-1  |   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+flask-1  |                                  Dload  Upload   Total   Spent    Left  Speed
+flask-1  |   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   150  100   150    0     0    391      0 --:--:-- --:--:-- --:--:--   392
+flask-1  | <html>
+flask-1  | <head><title>400 Bad Request</title></head>
+flask-1  | <body>
+flask-1  | <center><h1>400 Bad Request</h1></center>
+flask-1  | <hr><center>nginx</center>
+flask-1  | </body>
+flask-1  | </html>
+flask-1  |  * Serving Flask app 'app'
+flask-1  |  * Debug mode: off
+flask-1  | 2026-11-17 11:55:13,965 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+flask-1  |  * Running on all addresses (0.0.0.0)
+flask-1  |  * Running on http://127.0.0.1:5000
+flask-1  |  * Running on http://172.23.0.2:5000
+flask-1  | 2026-11-17 11:55:13,965 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+flask-1  | 2026-11-17 12:17:53,229 INFO werkzeug Thread-1 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:17:53] "GET / HTTP/1.1" 200 -
+flask-1  | 2026-11-17 12:23:29,518 INFO werkzeug Thread-2 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:23:29] "GET / HTTP/1.1" 200 -
+flask-1  | 2026-11-17 12:23:29,559 INFO werkzeug Thread-3 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:23:29] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+flask-1  | 2026-11-17 12:23:47,401 INFO app Thread-4 (process_request_thread) : File test_plain.txt encrypted and saved to /tmp/test_plain.txt.enc with key 197
+flask-1  | 2026-11-17 12:23:47,402 INFO werkzeug Thread-4 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:23:47] "POST /upload HTTP/1.1" 200 -
+flask-1  | 2026-11-17 12:23:47,505 ERROR werkzeug Thread-5 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:23:47] code 400, message Bad request version ('\x13\x01\x13\x03\x13\x02À+À/Ì©Ì¨À,À0À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06á\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00')
+flask-1  | 2026-11-17 12:23:47,506 INFO werkzeug Thread-5 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:23:47] "[31m[1m\x16\x03\x01\x07L\x01\x00\x07H\x03\x039\x8a\x1a¼=\x01\x9e\x0d#\x01\x8a®\x03P-ZÌÏ\x95µêóÐ­_\x17ò¡Ý±óí \x93\x1d7ó01ÏÜÿ\x00\x8a8;\x8b¸\x12Þ­B÷áÔ¤Q°Ç¹Z7èÛÈ\x00\x1e\x13\x01\x13\x03\x13\x02À+À/Ì©Ì¨À,À0À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06á\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00[0m" 400 -
+flask-1  | 2026-11-17 12:31:18,979 INFO werkzeug Thread-6 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:31:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+flask-1  | 2026-11-17 12:31:42,966 INFO app Thread-7 (process_request_thread) : File test_plain.txt encrypted and saved to /tmp/test_plain.txt.enc with key 251
+flask-1  | 2026-11-17 12:31:42,967 INFO werkzeug Thread-7 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:31:42] "POST /upload HTTP/1.1" 200 -
+flask-1  | 2026-11-17 12:31:43,028 ERROR werkzeug Thread-8 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:31:43] code 400, message Bad request version ('\x13\x01\x13\x03\x13\x02À+À/Ì©Ì¨À,À0À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06á\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00')
+flask-1  | 2026-11-17 12:31:43,029 INFO werkzeug Thread-8 (process_request_thread) : 172.23.0.1 - - [17/Nov/2026 12:31:43] "[31m[1m\x16\x03\x01\x07L\x01\x00\x07H\x03\x031Þ®ÚOY1'ÓPÞÐ»@!^ÈP»äR¥ù¡Ð4\x85û\x89\x9e6´ \x8bi\x17ñ@\x99ÊñÄ\x14òÂ}½Þ<\x04T\x0fóEêã\x84T\x88\x0d\x08\x91/e\x19\x00\x1e\x13\x01\x13\x03\x13\x02À+À/Ì©Ì¨À,À0À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06á\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00[0m" 400 -
