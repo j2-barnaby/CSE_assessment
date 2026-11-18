@@ -2,3 +2,4 @@ secrets/
 nginx/certs/*.key
 *.pyc
 evidence/03-triage/U_STIGViewer-linux-x64-3-8-1/
+evidence/03-triage/U_STIGViewer-linux-x64-3-8-1/
