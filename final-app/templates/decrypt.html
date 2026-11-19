@@ -9,15 +9,15 @@
     <div>
       <h1>Decrypt a File</h1>
       <form method="post" action="/decrypt">
-        <label for="filename">Select a file:</label>
-        <select name="filename" id="filename" required>
+        <label for="file_id">Select a file:</label>
+        <select name="file_id" id="file_id" required>
           {% for file in files %}
-            <option value="{{ file }}">{{ file }}</option>
+            <option value="{{ file['id'] }}">{{ file['original_name'] }} ({{ file['created_at'][:16] }})</option>
           {% endfor %}
         </select>
         <br><br>
         <label for="key">Enter decryption key:</label>
-        <input type="text" name="key" id="key" placeholder="Enter encryption key" required>
+        <input type="text" name="key" id="key" placeholder="Paste the key you were given" required autocomplete="off">
         <br><br>
         <button type="submit">Decrypt and Download</button>
       </form>

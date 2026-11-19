@@ -1,0 +1,60 @@
+
+===== 1. Normal upload (key returned, no server path) =====
+{"encryption_key":"mk2U6xYUy6rhadvZBf9Kj5x8u_nJnWu_ThKWAXmn-X4=","file_id":"bee91c95c4f84acdb8a3b25adfcb533d","filename":"s2_plain.txt","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+
+===== 2. Stored file is unreadable ciphertext (compare with XOR baseline) =====
+total 16
+-rw------- 1 root root    79 Nov 19 00:54 bee91c95c4f84acdb8a3b25adfcb533d.enc
+-rw-r--r-- 1 root root 12288 Nov 19 00:54 files.db
+00000000: 1015 caf6 8a0e c244 1719 9a31 9767 0109  .......D...1.g..
+00000010: b2b3 550e f030 cc8d f392 5092 dcfb 7cea  ..U..0....P...|.
+00000020: 0f48 a53e b87c 0085 3634 3b6c 2128 8b32  .H.>.|..64;l!(.2
+00000030: ac9e d645 8cd4 0664 dd6f a3c4 9c64 cd92  ...E...d.o...d..
+0
+plaintext NOT found in ciphertext
+
+===== 3. Round trip: decrypt and compare SHA-256 =====
+eb6397091ac0caa7075e86bc86935d06d139a199b3711a1a08c8390f9f73209e  /tmp/s2_plain.txt
+eb6397091ac0caa7075e86bc86935d06d139a199b3711a1a08c8390f9f73209e  /tmp/s2_decrypted.txt
+
+===== 4. Wrong key is rejected =====
+{"error":"Decryption failed: wrong key or file has been tampered with"}
+
+
+===== 5. Old attack: brute-force all 256 XOR keys against new ciphertext =====
+XOR keys that reveal plaintext: none - brute force fails
+
+===== 6. Path traversal filename is neutralised =====
+{"encryption_key":"NWgF3BinSMKR9kI0MKbXCc9hjQGPjXAieLLKrdZKD78=","file_id":"af6377e0521e4f02a08bd53a6d7b262f","filename":"etc_passwd","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+
+
+===== 7. Duplicate filenames do not overwrite each other =====
+be41ff87ad00402099f250f5c193b905
+2c5b7f1e303b43ac886d217d4d706aca
+
+===== 8. Long filename is truncated safely =====
+201
+
+===== 9. Empty file =====
+{"encryption_key":"1KssougnNAFfcDGytPAvkM92hk5RqjtGX6ZGHdcEF2A=","file_id":"e47ebf09ef1f4af2a4780eefa9604c2e","filename":"s2_empty.txt","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+
+
+===== 10. Oversized file (11 MB) is rejected =====
+HTTP 413
+
+===== 11. Missing file field =====
+{"error":"No file provided"}
+
+
+===== 12. Key is NOT in the log =====
+0
+key not present in log
+2026-11-19 00:54:06,567 INFO app Thread-7 (process_request_thread) : File encrypted id=b18103ac41b74e848ff3a3e49667e064 name=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.txt size=2
+2026-11-19 00:54:06,567 INFO werkzeug Thread-7 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,584 INFO app Thread-8 (process_request_thread) : File encrypted id=e47ebf09ef1f4af2a4780eefa9604c2e name=s2_empty.txt size=0
+2026-11-19 00:54:06,584 INFO werkzeug Thread-8 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,610 INFO werkzeug Thread-9 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "[31m[1mPOST /upload HTTP/1.1[0m" 400 -
+
+===== 13. Persistence across restart =====
+eb6397091ac0caa7075e86bc86935d06d139a199b3711a1a08c8390f9f73209e  /tmp/s2_plain.txt
+eb6397091ac0caa7075e86bc86935d06d139a199b3711a1a08c8390f9f73209e  /tmp/s2_after_restart.txt

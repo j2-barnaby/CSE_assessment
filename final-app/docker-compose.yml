@@ -1,4 +1,3 @@
-
 services:
   flask:
     build:
@@ -6,6 +5,8 @@ services:
       dockerfile: flask_dockerfile
     volumes:
       - ./logs:/app/logs
+      # STEP 2 CHANGE (F-05): encrypted files persist across restarts
+      - encrypted_data:/data
     expose:
       - "5000"
 
@@ -17,3 +18,6 @@ services:
       - "443:443"
     depends_on:
       - flask
+
+volumes:
+  encrypted_data:
