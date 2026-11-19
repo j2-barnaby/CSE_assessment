@@ -1,0 +1,3 @@
+{"encryption_key":"l3HeOVzqboZRh8eGe3XXb2lQ6zKhXEq76xihvVEv-tU=","file_id":"4eea47f59cc145ff9a1c50e046891ce8","filename":"normal.txt","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+
+HTTP 200

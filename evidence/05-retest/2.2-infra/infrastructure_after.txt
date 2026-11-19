@@ -1,0 +1,33 @@
+--- host listening ports (compare 2.7 ss-portidentification.txt)
+LISTEN 0      4096         0.0.0.0:22         0.0.0.0:*          
+LISTEN 0      128          0.0.0.0:23         0.0.0.0:*          
+LISTEN 0      4096         0.0.0.0:80         0.0.0.0:*          
+LISTEN 0      4096         0.0.0.0:443        0.0.0.0:*          
+LISTEN 0      4096            [::]:22            [::]:*          
+LISTEN 0      128             [::]:23            [::]:*          
+LISTEN 0      4096            [::]:80            [::]:*          
+LISTEN 0      4096            [::]:443           [::]:*          
+
+--- containers
+NAME                IMAGE             COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+final-app-flask-1   final-app-flask   "gunicorn --bind uni…"   flask     21 seconds ago   Up 20 seconds (healthy)   
+final-app-nginx-1   final-app-nginx   "/docker-entrypoint.…"   nginx     29 minutes ago   Up 29 minutes             0.0.0.0:80->8080/tcp, [::]:80->8080/tcp, 0.0.0.0:443->8443/tcp, [::]:443->8443/tcp
+
+--- final-app-flask-1
+User=appuser:web ReadOnlyRootfs=true CapDrop=[ALL] SecurityOpt=[no-new-privileges:true] Privileged=false NetworkMode=none PidsLimit=100 MemoryBytes=268435456 Restart=unless-stopped
+Published ports: 
+Env: PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin | LANG=C.UTF-8 | GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305 | PYTHON_VERSION=3.13.18 | PYTHON_SHA256=abb0102e6d4ae027509bcb82327d9dd85515b44a3ba8ad538cfc5e9847029f68 | PYTHONDONTWRITEBYTECODE=1 | PYTHONUNBUFFERED=1 | 
+
+--- final-app-nginx-1
+User=101 ReadOnlyRootfs=true CapDrop=[ALL] SecurityOpt=[no-new-privileges:true] Privileged=false NetworkMode=final-app_default PidsLimit=100 MemoryBytes=134217728 Restart=unless-stopped
+Published ports: 8080/tcp->80 80 8443/tcp->443 443 
+Env: PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin | NGINX_VERSION=1.31.7 | PKG_RELEASE=1 | DYNPKG_RELEASE=1 | NJS_VERSION=1.0.2 | NJS_RELEASE=1 | 
+
+--- process users inside containers
+uid=10001(appuser) gid=101(web) groups=101(web)
+uid=101(nginx) gid=101(nginx) groups=101(nginx)
+
+--- TLS key permissions on host
+total 8
+-rw-r--r-- 1 1001 1001 786 Nov 19 01:04 nginx.crt
+-rw-r----- 1 1001  101 306 Nov 19 01:04 nginx.key

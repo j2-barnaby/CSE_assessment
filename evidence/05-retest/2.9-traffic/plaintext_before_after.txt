@@ -1,0 +1,4 @@
+POST /upload           before=7   after=0
+encryption_key         before=7   after=0
+Content-Disposition    before=7   after=0
+filename=              before=7   after=0

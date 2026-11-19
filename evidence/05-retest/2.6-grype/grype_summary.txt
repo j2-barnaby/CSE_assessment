@@ -1,0 +1,16 @@
+--- original_flask
+  rows  : Critical 51, High 287, Medium 334, Low 47, Negligible 120, Unknown 24 | total 863
+  unique: Critical 32, High 164, Medium 205, Low 32, Negligible 61, Unknown 6 | total 500
+  Critical/High rows with a fix available: 183
+--- final_flask
+  rows  : Critical 0, High 77, Medium 82, Low 17, Negligible 50, Unknown 0 | total 226
+  unique: Critical 0, High 23, Medium 43, Low 9, Negligible 27, Unknown 0 | total 102
+  Critical/High rows with a fix available: 0
+--- original_nginx
+  rows  : Critical 1, High 8, Medium 5, Low 0, Negligible 0, Unknown 0 | total 14
+  unique: Critical 1, High 4, Medium 2, Low 0, Negligible 0, Unknown 0 | total 7
+  Critical/High rows with a fix available: 1
+--- final_nginx
+  rows  : Critical 0, High 8, Medium 5, Low 0, Negligible 0, Unknown 0 | total 13
+  unique: Critical 0, High 4, Medium 2, Low 0, Negligible 0, Unknown 0 | total 6
+  Critical/High rows with a fix available: 0

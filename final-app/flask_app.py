@@ -321,9 +321,12 @@ def start_session(user):
         conn.execute("INSERT INTO sessions (sid, user_id, created_at, last_seen, src_ip) "
                      "VALUES (?, ?, ?, ?, ?)", (sid, user["id"], ts, ts, request.remote_addr))
         # ASD V-222387: limit concurrent sessions - drop the oldest extras
+        # never evict the session just created; keep the newest others
+        # (rowid breaks ties when several logins happen in the same second)
         extra = conn.execute(
-            "SELECT sid FROM sessions WHERE user_id = ? ORDER BY last_seen DESC LIMIT -1 OFFSET ?",
-            (user["id"], MAX_SESSIONS_PER_USER)).fetchall()
+            "SELECT sid FROM sessions WHERE user_id = ? AND sid != ? "
+            "ORDER BY last_seen DESC, rowid DESC LIMIT -1 OFFSET ?",
+            (user["id"], sid, MAX_SESSIONS_PER_USER - 1)).fetchall()
         for row in extra:
             conn.execute("DELETE FROM sessions WHERE sid = ?", (row["sid"],))
     session.permanent = True
@@ -379,6 +382,16 @@ def start_request():
                 with get_db() as conn:
                     conn.execute("UPDATE sessions SET last_seen = ? WHERE sid = ?",
                                  (iso(now()), sid))
+
+    # STEP 6 (F-11): anonymous requests to protected actions get a clear
+    # "authentication required" before any other processing
+    if g.user is None and request.endpoint in ("upload_file", "decrypt", "delete_file"):
+        audit_event("access_denied", "failure", logging.WARNING, reason="not authenticated")
+        if wants_json() or request.method != "GET":
+            if wants_json():
+                return error_response("Authentication required", 401)
+            flash("Please sign in first.", "info")
+        return redirect(url_for("login"))
 
     # STEP 6: CSRF protection for every state-changing request (ASD V-222603)
     if request.method == "POST":

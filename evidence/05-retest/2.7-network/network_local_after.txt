@@ -1,0 +1,39 @@
+--- HTTP behaviour (baseline: HTTP served on 443, port 80 closed)
+http://localhost/          -> 301 https://localhost/
+http://localhost:443/      -> 400
+https://localhost/         -> 302 https://localhost/login
+direct Flask 172.23.0.2:5000 -> blocked
+
+--- response headers
+HTTP/2 401 
+server: nginx
+set-cookie: __Host-session=eyJjc3JmIjoibDhrWU14dHlIanIyR2czamRYZHlOYUFnREtNVDVKRlhvZ1FESVhqYTU0TSJ9.av5rGA.Iv1ODn6bmgYpjsMGsne5yuexF4o; Secure; HttpOnly; Path=/; SameSite=Strict
+strict-transport-security: max-age=31536000; includeSubDomains
+x-content-type-options: nosniff
+x-frame-options: DENY
+referrer-policy: no-referrer
+content-security-policy: default-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+--- TLS protocol + cipher matrix
+-tls1     Cipher is (NONE)
+
+-tls1_1   Cipher is (NONE)
+
+-tls1_2   Cipher is ECDHE-ECDSA-AES256-GCM-SHA384
+
+-tls1_3   Cipher is TLS_AES_256_GCM_SHA384
+
+--- nmap -sV -p- localhost
+22/tcp    open  ssh      OpenSSH 9.6p1 Ubuntu 3ubuntu13.19 (Ubuntu Linux; protocol 2.0)
+23/tcp    open  telnet
+80/tcp    open  http     nginx
+443/tcp   open  ssl/http nginx
+631/tcp   open  ipp      CUPS 2.4
+42769/tcp open  unknown
+Nmap done: 1 IP address (1 host up) scanned in 89.36 seconds
+--- nmap ssl-enum-ciphers
+|   TLSv1.2: 
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (secp384r1) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (secp384r1) - A
+|_  least strength: A

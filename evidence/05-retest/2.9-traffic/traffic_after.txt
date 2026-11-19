@@ -1,0 +1,4 @@
+packets captured: 104
+secret text visible in AFTER capture : 0
+packets on HTTPS port (encrypted)    : 74
+TESTFILE text visible in BEFORE capture: 0

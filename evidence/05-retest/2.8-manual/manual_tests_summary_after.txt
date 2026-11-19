@@ -1,0 +1,18 @@
+key_response       {"encryption_key":"s9PgpCeeeQ1WnxfIGnlSvTsb51hQqv8p_zED0p9xfts=","file_id":"1a6d00b2019b492eb31bde611f9f00b3","filename":"normal.txt","message":"File encrypted and stored
+duplicate_first    {"encryption_key":"ogy5jN0C-NtVAFc3Y_nfNO7_YmFOWQ3N-JNDWLjGXOQ=","file_id":"4cf42f1fcf8344a29d28802bcfc2e543","filename":"normal.txt","message":"File encrypted and stored
+duplicate_second   {"encryption_key":"l3HeOVzqboZRh8eGe3XXb2lQ6zKhXEq76xihvVEv-tU=","file_id":"4eea47f59cc145ff9a1c50e046891ce8","filename":"normal.txt","message":"File encrypted and stored
+empty_file         {"encryption_key":"z1g6mpqOZYA3c_d9MOwqn3y6CUgtvyKnbMXs3yY2XRY=","file_id":"e44a1db033c043fca1bb195e4e8e9ea6","filename":"empty.txt","message":"File encrypted and stored.
+incorrect_field    {"error":"No file provided","request_id":"18e40e22768641fba3f8b9cde73583c0"}  HTTP 400 
+missing_file       {"error":"No file provided","request_id":"f99d90e484b967fd85187873b07051f8"}  HTTP 400 
+special_filename   {"encryption_key":"Yk09OJnEoKgqS8m4hbXq2SJfrX0zf3WZPDDr2Ob-gPM=","file_id":"474fc1bd2d05439493a81ace2f93528b","filename":"test_file_.txt","message":"File encrypted and st
+traversal          {"encryption_key":"JRXb0c_Xh2Hjf7wB4sDpBWMEsuw4uJd3an1wB4_Xb-I=","file_id":"edac924ff6004cfab0a3cfddb80d6f15","filename":"etc_passwd","message":"File encrypted and stored
+long_filename      {"encryption_key":"rlztZGjOXuhNLuHlk1EKSPlENPyZlMSxGIgAHAndm1I=","file_id":"090b2968eb38492ba32815b62c708154","filename":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+large_file         <html> <head><title>413 Request Entity Too Large</title></head> <body> <center><h1>413 Request Entity Too Large</h1></center> <hr><center>nginx</center> </body> </h
+
+Duplicate uploads stored separately (different file_id):
+"file_id":"4cf42f1fcf8344a29d28802bcfc2e543"
+"file_id":"4eea47f59cc145ff9a1c50e046891ce8"
+
+--- XOR brute force (baseline xor_test.py recovered the key) against the NEW ciphertext
+XOR keys that decrypt the file: none - brute force fails
+plaintext 15 bytes -> stored 43 bytes (12-byte nonce + ciphertext + 16-byte GCM tag)
