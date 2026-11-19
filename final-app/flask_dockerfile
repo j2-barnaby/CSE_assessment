@@ -2,10 +2,8 @@
 # The supplied base image majidockerid/uwe:application3 is untrusted: its
 # ~/.bashrc plants the encrypted API_CHECK payload. Deleting the Python code is
 # not enough while the image itself is tampered with, so we use the official
-# Docker Hub Python image instead.
-# TODO (after first build): pin by digest, e.g.
-#   FROM python:3.13-slim@sha256:<digest from `docker images --digests`>
-FROM python:3.13-slim
+# Docker Hub Python image instead, pinned by digest so it cannot change silently.
+FROM python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90
 
 WORKDIR /app
 
@@ -15,8 +13,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY templates /app/templates
 COPY flask_app.py /app/app.py
 
-RUN mkdir -p /app/logs
+RUN mkdir -p /app/logs /run/app
 
-EXPOSE 5000
-
-CMD ["python", "app.py"]
+# STEP 3 CHANGE (F-07 / F-08):
+#  - gunicorn (production WSGI server) replaces the Flask development server
+#  - it listens on a Unix socket in a volume shared ONLY with nginx, so there is
+#    no TCP port at all: the app cannot be reached except through nginx/TLS
+#  - umask 000 lets the nginx worker use the socket; tightened to a shared
+#    group in Step 4 when both containers stop running as root
+CMD ["gunicorn", "--bind", "unix:/run/app/app.sock", "--umask", "000", \
+     "--workers", "2", "--access-logfile", "-", "app:app"]

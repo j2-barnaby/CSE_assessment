@@ -52,8 +52,13 @@ openssl x509 -in certs/nginx.crt -noout -subject -issuer -dates -ext subjectAltN
 openssl x509 -in certs/nginx.crt -noout -text | grep -E "Public Key Algorithm|NIST CURVE|Signature Algorithm" | sort -u
 
 out "8. Flask cannot be reached directly (baseline: http://172.23.0.2:5000 worked)"
-FIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' final-app-flask-1)
-echo "Flask container IP(s): $FIP"
+echo "Flask network mode: $(docker inspect -f '{{.HostConfig.NetworkMode}}' final-app-flask-1)"
+FIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' final-app-flask-1 | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | xargs)
+echo "Flask container IP(s): ${FIP:-NONE - no network interface}"
+docker compose exec -T flask python -c "import socket; print('interfaces:', [n for _, n in socket.if_nameindex()])"
+docker compose exec -T flask sh -c "ls -l /run/app/"
+echo "Retry the baseline address directly:"
+curl -s --max-time 4 -o /dev/null http://172.23.0.2:5000/ && echo "172.23.0.2:5000 reachable!" || echo "http://172.23.0.2:5000 -> connection FAILED (blocked)"
 for ip in $FIP; do
   curl -s --max-time 4 -o /dev/null -w "http://$ip:5000 -> HTTP %{http_code}\n" "http://$ip:5000/" \
     || echo "http://$ip:5000 -> connection FAILED (blocked)"

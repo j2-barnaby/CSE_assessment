@@ -207,5 +207,8 @@ def too_large(_e):
 
 init_storage()
 
+# STEP 3 CHANGE (F-07 / F-08): in the container the app is served by gunicorn
+# on a Unix socket (see flask_dockerfile), not the Flask development server.
+# This block is only for local development and binds to loopback only.
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='127.0.0.1')

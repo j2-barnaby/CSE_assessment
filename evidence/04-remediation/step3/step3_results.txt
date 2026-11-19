@@ -1,0 +1,90 @@
+
+===== 1. Containers and published ports =====
+NAME                IMAGE             COMMAND                  SERVICE   CREATED         STATUS         PORTS
+final-app-flask-1   final-app-flask   "gunicorn --bind uni…"   flask     2 minutes ago   Up 2 minutes   
+final-app-nginx-1   final-app-nginx   "/docker-entrypoint.…"   nginx     2 minutes ago   Up 2 minutes   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp
+
+===== 2. HTTP (port 80) redirects to HTTPS =====
+HTTP 301 -> https://localhost/
+HTTP 301 -> https://localhost/upload
+
+===== 3. Plain HTTP sent to port 443 is refused (baseline returned 200 OK here) =====
+HTTP 400
+
+===== 4. HTTPS works with certificate verification + security headers =====
+HTTP/2 200 
+server: nginx
+strict-transport-security: max-age=31536000; includeSubDomains
+x-content-type-options: nosniff
+x-frame-options: DENY
+referrer-policy: no-referrer
+content-security-policy: default-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'
+
+===== 5. Protocol versions (only TLS 1.2 and 1.3 allowed) =====
+SSLv3                                         REJECTED
+TLS 1.0                                       REJECTED
+TLS 1.1                                       REJECTED
+TLS 1.2                                       Cipher is ECDHE-ECDSA-AES256-GCM-SHA384
+TLS 1.3                                       Cipher is TLS_AES_256_GCM_SHA384
+
+===== 6. Cipher suites: NIST 800-52r2 accepted, everything else rejected =====
+TLS1.3 AES_256_GCM_SHA384 (NIST)              Cipher is TLS_AES_256_GCM_SHA384
+TLS1.3 AES_128_GCM_SHA256 (NIST)              Cipher is TLS_AES_128_GCM_SHA256
+TLS1.3 CHACHA20_POLY1305 (not NIST)           REJECTED
+TLS1.2 ECDHE-ECDSA-AES256-GCM (NIST)          Cipher is ECDHE-ECDSA-AES256-GCM-SHA384
+TLS1.2 ECDHE-ECDSA-AES128-GCM (NIST)          Cipher is ECDHE-ECDSA-AES128-GCM-SHA256
+TLS1.2 ECDHE-ECDSA-AES256-SHA384 (CBC)        REJECTED
+TLS1.2 AES256-SHA (no forward secrecy)        REJECTED
+TLS1.2 ECDHE-ECDSA-CHACHA20 (not NIST)        REJECTED
+TLS1.2 DES-CBC3-SHA (3DES)                    REJECTED
+
+===== 7. Certificate details =====
+subject=C = GB, O = Company X, CN = localhost
+issuer=C = GB, O = Company X, CN = localhost
+notBefore=Nov 19 01:04:35 2026 GMT
+notAfter=Nov 19 01:04:35 2027 GMT
+X509v3 Subject Alternative Name: 
+    DNS:localhost, IP Address:127.0.0.1
+                NIST CURVE: P-384
+            Public Key Algorithm: id-ecPublicKey
+        Signature Algorithm: ecdsa-with-SHA384
+    Signature Algorithm: ecdsa-with-SHA384
+
+===== 8. Flask cannot be reached directly (baseline: http://172.23.0.2:5000 worked) =====
+Flask network mode: none
+Flask container IP(s): NONE - no network interface
+interfaces: ['lo']
+total 0
+srwxrwxrwx 1 root root 0 Nov 19 01:09 app.sock
+Retry the baseline address directly:
+http://172.23.0.2:5000 -> connection FAILED (blocked)
+localhost:5000 -> connection FAILED (blocked)
+
+===== 9. Flask has no outbound internet (internal network) - would have stopped the exfiltration =====
+outbound blocked: gaierror
+
+===== 10. Functional round trip over HTTPS =====
+{"encryption_key":"MmBB3fqbKlRKqjYizxhcEIGtsSm_AVvbtnzxiTy8cR0=","file_id":"e971e89438de4c5eb7e084a98e018966","filename":"s3_plain.txt","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+24c6e8eed03512116b5042337d3bc360ec713ac5a8b9d371bf7fe2ed8ec058a6  /tmp/s3_plain.txt
+24c6e8eed03512116b5042337d3bc360ec713ac5a8b9d371bf7fe2ed8ec058a6  /tmp/s3_decrypted.txt
+
+===== 11. nmap TLS cipher enumeration (compare with tls_nmap_before.txt) =====
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-11-19 01:12 GMT
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000096s latency).
+
+PORT    STATE SERVICE  VERSION
+80/tcp  open  http     nginx
+443/tcp open  ssl/http nginx
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (secp384r1) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (secp384r1) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|_  least strength: A
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 12.22 seconds

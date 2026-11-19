@@ -7,12 +7,16 @@ services:
       - ./logs:/app/logs
       # STEP 2 CHANGE (F-05): encrypted files persist across restarts
       - encrypted_data:/data
-    # STEP 3 CHANGE (F-07): Flask is ONLY on the internal backend network.
-    # It has no published ports and no route to the outside world, so the
-    # only way to reach it is through nginx over HTTPS. (The baseline showed
-    # it could be reached directly on http://172.23.0.2:5000.)
-    networks:
-      - backend
+      # STEP 3 CHANGE: Unix socket shared with nginx
+      - app_socket:/run/app
+    # STEP 3 CHANGE (F-07, iteration 2):
+    # Iteration 1 put Flask on an `internal: true` network, but retesting showed
+    # the host could still reach http://<flask-ip>:5000 directly (Docker internal
+    # networks block outbound traffic, not host -> container). So Flask now has
+    # NO network interface at all. nginx talks to it over the Unix socket.
+    # Side effect: the container cannot make any outbound connection, which
+    # would also have blocked the original canarytokens exfiltration.
+    network_mode: none
 
   nginx:
     build:
@@ -24,16 +28,10 @@ services:
     volumes:
       # certificate + private key mounted read-only, never baked into the image
       - ./certs:/etc/nginx/certs:ro
-    networks:
-      - frontend
-      - backend
+      - app_socket:/run/app
     depends_on:
       - flask
 
-networks:
-  frontend:
-  backend:
-    internal: true   # no external connectivity
-
 volumes:
   encrypted_data:
+  app_socket:
