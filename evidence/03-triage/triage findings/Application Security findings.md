@@ -1,8 +1,3 @@
-## 6. Application Security and Development STIG Assessment
-
-**Reference:** Application Security and Development STIG  
-**Control identifier note:** Verify exact Group IDs and severity values in the STIG Viewer release used. The requirement topics below are paraphrased and are not official STIG wording.
-
 | Application Security and Development STIG |  |  |  |  |  |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Enter the exact Group ID and severity from your downloaded STIG release/Viewer. Topics below are mapped to your evidence; they are not official STIG requirement wording. |  |  |  |  |  |  |  |  |
