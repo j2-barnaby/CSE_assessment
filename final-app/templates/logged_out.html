@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Signed out{% endblock %}
+{% block content %}
+<section class="card card-narrow">
+  <h1>{% if was_signed_in %}You have been signed out{% else %}Signed out{% endif %}</h1>
+  <p>Your session has been securely terminated and its session ID destroyed on the server.
+     Close the browser if you are on a shared computer.</p>
+  <a class="btn btn-primary" href="{{ url_for('login') }}">Sign in again</a>
+</section>
+{% endblock %}

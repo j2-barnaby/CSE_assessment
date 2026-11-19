@@ -24,6 +24,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
  && pip uninstall -y pip
 
 COPY templates /app/templates
+COPY static /app/static
 COPY flask_app.py /app/app.py
 
 # STEP 4 CHANGE (F-09, ASD V-222430 - least privilege):

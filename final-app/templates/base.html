@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Secure File Vault{% endblock %} · Company X</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('index') }}">
+        <span class="brand-mark" aria-hidden="true">&#9670;</span>
+        <span>Secure File Vault</span>
+      </a>
+      {% if current_user %}
+        <nav class="account">
+          <span class="who">Signed in as <strong>{{ current_user['username'] }}</strong></span>
+          <form method="post" action="{{ url_for('logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit" class="btn btn-ghost">Sign out</button>
+          </form>
+        </nav>
+      {% endif %}
+    </header>
+
+    <main class="wrap">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flashes" role="status">
+            {% for category, message in messages %}
+              <p class="flash flash-{{ category }}">{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="foot">
+      AES-256-GCM encryption at rest · TLS 1.2/1.3 in transit ·
+      {% if current_user %}You are signed out automatically after {{ idle_minutes }} minutes of inactivity.{% else %}Authorised users only. Activity is logged.{% endif %}
+    </footer>
+  </body>
+</html>

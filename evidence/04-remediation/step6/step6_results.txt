@@ -1,0 +1,102 @@
+
+===== 0. Fresh start: no users yet =====
+users in database: 0
+
+===== 1. Unauthenticated access is refused (baseline: anyone could upload) =====
+(upload with no session is rejected before it reaches the app logic)
+GET /        -> HTTP 302 -> https://localhost/login
+{"error":"Invalid or missing CSRF token - reload the page and try again.","request_id":"9b6f63f35e74626e2fde3a1765643c43"}
+
+
+===== 2. Password policy enforced (ASD V-222536 to V-222540) =====
+weak password 'password123' -> HTTP 400  Password must have at least 15 characters, an uppercase letter, a special character.
+
+===== 3. Register two users =====
+alice -> HTTP 302
+bob   -> HTTP 302
+
+===== 4. Passwords stored only as salted PBKDF2-SHA256 hashes (ASD V-222542) =====
+alice pbkdf2:sha256:600000$AjGJiddRH8ivRoAi$7ac355b...
+bob pbkdf2:sha256:600000$kmXG4xjTMAEpDvKI$7627200...
+
+===== 5. Login without a CSRF token is rejected (ASD V-222603) =====
+HTTP 400
+
+===== 6. Login + hardened session cookie (ASD V-222575, V-222576, V-222579) =====
+alice login -> HTTP 302
+set-cookie: __Host-session=.eJwNy7sOgjAUANB_uTMkvX3RMmoMDI2LDoaFlD4Cg9UUJKLx32U9yflC_wz5blNIC9RLfoUC3Jwj1FAeTl1sV2y0LD_Nttljf3ubtlknbc7j0BlZpevlQUgiUMA8-f0g59JrhcwptCgpWqGqgQjHqNfMDkrqyNRuAUkk3MrAqBDMU1FF5ymH3x_UcCpH.av5jTw.P-JQaW8Mgb9Jq0XnKAJ1XOWxBnY; Expires=Thu, 19 Nov 2026 03:02:43 GMT; Secure; HttpOnly; Path=/; SameSite=Strict
+
+===== 7. Alice uploads and decrypts her own file =====
+{"encryption_key":"8DT4PG-Hyi09hEEdsTw54CnKZGDy3mYgrWz_1ZYf6Tc=","file_id":"8a4b9f09fa184a959ea558c393b2af14","filename":"s6_alice.txt","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+62022da60fd6af28fba47e9983fb32fbc9c07ceddc963d7427d8c355acdf58c1  /tmp/s6_alice.txt
+62022da60fd6af28fba47e9983fb32fbc9c07ceddc963d7427d8c355acdf58c1  /tmp/s6_alice_out.txt
+
+===== 8. Bob cannot see, decrypt or delete Alice's file - even WITH her key (ASD V-222425) =====
+bob login -> HTTP 302
+alice file visible in bob list: 0
+bob decrypt (correct key) -> {"error":"File not found.","request_id":"bb3caf646dc92e2c297a3e7f63bb35ce"}
+
+bob delete               -> {"error":"File not found.","request_id":"04b18db6dbf88af0492b000a79008aa0"}
+
+alice file still in database: True
+
+===== 9. Cross-site scripting: malicious filename is neutralised (ASD V-222602) =====
+"filename":"scriptalert1_script.txt"
+raw <script> tags in page: 0
+
+===== 10. Account lockout after 3 failures in 15 minutes (ASD V-222432) =====
+bob wrong password #1 -> HTTP 401
+bob wrong password #2 -> HTTP 401
+bob wrong password #3 -> HTTP 401
+bob CORRECT password    -> HTTP 401   (401 = locked)
+unknown user            -> HTTP 401   (same generic message - no username enumeration)
+-- administrator unlocks the account (ASD V-222433):
+{"ts": "2026-11-19T02:48:02.830+00:00", "app": "file-encryption-service", "level": "INFO", "event": "app_start", "outcome": "success", "pid": 65, "version": "3.0.0", "uid": 10001, "max_upload_mb": 10, "idle_timeout_min": 15, "log_level": "INFO"}
+{"ts": "2026-11-19T02:48:02.833+00:00", "app": "file-encryption-service", "level": "INFO", "event": "account_unlock", "outcome": "success", "pid": 65, "target_user": "bob", "actor": "administrator (CLI)"}
+Unlocked bob
+{"ts": "2026-11-19T02:48:02.833+00:00", "app": "file-encryption-service", "level": "INFO", "event": "app_stop", "outcome": "success", "pid": 65, "uid": 10001}
+bob CORRECT password    -> HTTP 302   (302 = signed in)
+
+===== 11. Previous sign-in shown to the user (ASD V-222437) =====
+Previous sign-in: 19 Nov 2026, 02:47 UTC 
+
+===== 12. Idle timeout after 15 minutes (ASD V-222389) - simulated by ageing the session =====
+alice sessions aged by 16 minutes
+alice GET / -> HTTP 302 -> https://localhost/login
+
+===== 13. Logout destroys the session on the server (ASD V-222578, V-222388, V-222392) =====
+clear-site-data: "cookies", "storage"
+You have been signed out
+replay of copied pre-logout cookie -> HTTP 302 -> https://localhost/login
+
+===== 14. Concurrent sessions capped at 3 per user (ASD V-222387) =====
+alice active sessions: 3
+
+===== 15. Brute-force throttling at nginx (HTTP 429 after burst) =====
+400 400 400 400 400 400 400 400 400 400 429 429 429 429 429 
+
+===== 16. Audit trail of all of the above (identity + outcome on every record) =====
+access_denied      failure  x2
+account_create     failure  x1
+account_create     success  x2
+account_lock       success  x1
+account_unlock     success  x1
+csrf_check         failure  x13
+file_decrypt       failure  x1
+file_decrypt       success  x1
+file_delete        failure  x1
+file_encrypt       success  x2
+login              failure  x5
+login              success  x9
+logout             success  x1
+session_created    success  x9
+session_destroyed  success  x2
+session_timeout    failure  x1
+-- sample security events:
+{"ts": "2026-11-19T02:47:46.487+00:00", "app": "file-encryption-service", "level": "WARNING", "event": "access_denied", "outcome": "failure", "pid": 8, "user": "bob", "src_ip": "172.18.0.1", "dst": "172.18.0.2:8443", "method": "POST", "path": "/delete", "request_id": "04b18db6dbf88af0492b000a79008aa0", "file_id": "8a4b9f09fa184a959ea558c393b2af14", "reason": "file owned by another user"}
+{"ts": "2026-11-19T02:47:56.056+00:00", "app": "file-encryption-service", "level": "WARNING", "event": "account_lock", "outcome": "success", "pid": 8, "user": "anonymous", "src_ip": "172.18.0.1", "dst": "172.18.0.2:8443", "method": "POST", "path": "/login", "request_id": "58696094b4a47cf700f5be306764dd6c", "target_user": "bob", "attempts": 3, "locked_until": "2026-11-19T03:02:55+00:00"}
+{"ts": "2026-11-19T02:48:09.206+00:00", "app": "file-encryption-service", "level": "INFO", "event": "session_timeout", "outcome": "failure", "pid": 7, "user": "alice", "src_ip": "172.18.0.1", "dst": "172.18.0.2:8443", "method": "GET", "path": "/", "request_id": "2e3326c9dd454f7902d1acb94782f3cc", "reason": "idle timeout"}
+-- passwords or encryption key in log?
+Quartz... -> 0
+Copper... -> 0
+8DT4PG... -> 0

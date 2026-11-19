@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Save your key{% endblock %}
+{% block content %}
+<section class="card card-narrow">
+  <h1>File encrypted</h1>
+  <p><strong>{{ filename }}</strong> ({{ size | filesize }}) is now stored encrypted.</p>
+  <div class="warning">
+    <strong>Save this key now.</strong> It is shown only once and is not stored anywhere on the
+    server. Without it the file cannot be decrypted, not even by an administrator.
+  </div>
+  <label for="key">Your decryption key</label>
+  <div class="keybox">
+    <input id="key" value="{{ key }}" readonly spellcheck="false">
+    <button type="button" class="btn" data-copy="key">Copy</button>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('index') }}">I've saved my key - back to my files</a>
+</section>
+{% endblock %}

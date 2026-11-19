@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<section class="card card-narrow">
+  <h1>Sign in</h1>
+  <p class="muted">Encrypt, store and retrieve your files securely.</p>
+  <form method="post" action="{{ url_for('login') }}" class="stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="username">Username</label>
+    <input id="username" name="username" value="{{ username or '' }}" required
+           autocomplete="username" maxlength="32" autofocus>
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required
+           autocomplete="current-password" maxlength="128">
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </form>
+  <p class="muted small">Accounts lock for 15 minutes after 3 failed attempts.</p>
+  <p class="switch">No account? <a href="{{ url_for('register') }}">Create one</a></p>
+</section>
+{% endblock %}

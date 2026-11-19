@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}My files{% endblock %}
+{% block content %}
+<p class="lastlogin">
+  {% if current_user['prev_login'] %}
+    Previous sign-in: {{ current_user['prev_login'] | when }}
+    {% if current_user['prev_login_ip'] %} from {{ current_user['prev_login_ip'] }}{% endif %}
+  {% else %}
+    Welcome! This is your first sign-in.
+  {% endif %}
+</p>
+
+<section class="card">
+  <h2>Encrypt a file</h2>
+  <form method="post" action="{{ url_for('upload_file') }}" enctype="multipart/form-data" class="upload">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label class="dropzone" for="file">
+      <span class="dropzone-title" data-file-label>Choose a file</span>
+      <span class="muted small">Any type, up to {{ max_upload_mb }} MB. Encrypted with AES-256-GCM before it is stored.</span>
+      <input id="file" name="file" type="file" required>
+    </label>
+    <button type="submit" class="btn btn-primary">Encrypt &amp; store</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>My files <span class="count">{{ files|length }}</span></h2>
+  {% if files %}
+    <div class="table-wrap">
+      <table class="files">
+        <thead>
+          <tr><th>File</th><th>Size</th><th>Encrypted</th><th>Decrypt with your key</th><th></th></tr>
+        </thead>
+        <tbody>
+        {% for f in files %}
+          <tr>
+            <td class="fname">{{ f['original_name'] }}</td>
+            <td class="nowrap">{{ f['size_bytes'] | filesize }}</td>
+            <td class="nowrap">{{ f['created_at'] | when }}</td>
+            <td>
+              <form method="post" action="{{ url_for('decrypt') }}" class="inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="file_id" value="{{ f['id'] }}">
+                <input name="key" type="password" placeholder="Paste key" required
+                       autocomplete="off" aria-label="Decryption key for {{ f['original_name'] }}">
+                <button type="submit" class="btn btn-small">Decrypt</button>
+              </form>
+            </td>
+            <td>
+              <form method="post" action="{{ url_for('delete_file') }}"
+                    data-confirm="Permanently delete {{ f['original_name'] }}? This cannot be undone.">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="file_id" value="{{ f['id'] }}">
+                <button type="submit" class="btn btn-small btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="empty">No files yet. Encrypt one above and it will appear here.</p>
+  {% endif %}
+</section>
+{% endblock %}
