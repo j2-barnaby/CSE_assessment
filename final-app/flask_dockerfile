@@ -1,0 +1,22 @@
+# STEP 1 CHANGE (F-03 / F-10, ASD STIG V-222604, V-222614):
+# The supplied base image majidockerid/uwe:application3 is untrusted: its
+# ~/.bashrc plants the encrypted API_CHECK payload. Deleting the Python code is
+# not enough while the image itself is tampered with, so we use the official
+# Docker Hub Python image instead.
+# TODO (after first build): pin by digest, e.g.
+#   FROM python:3.13-slim@sha256:<digest from `docker images --digests`>
+FROM python:3.13-slim
+
+WORKDIR /app
+
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY templates /app/templates
+COPY flask_app.py /app/app.py
+
+RUN mkdir -p /app/logs
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
