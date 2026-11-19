@@ -5,21 +5,50 @@
 # Docker Hub Python image instead, pinned by digest so it cannot change silently.
 FROM python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90
 
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# STEP 4 CHANGE (F-10, ASD V-222614 / Web SRG V-206443):
+# apply all available Debian security updates (fixes the OpenSSL and zlib CVEs
+# grype reported as fixable after Step 1), then clean the package cache.
+RUN apt-get update \
+ && apt-get upgrade -y --no-install-recommends \
+ && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# STEP 4 CHANGE: pip is only needed at build time. Removing it afterwards takes
+# its CVEs out of the image and leaves an attacker no package installer.
+RUN pip install --no-cache-dir -r requirements.txt \
+ && pip uninstall -y pip
 
 COPY templates /app/templates
 COPY flask_app.py /app/app.py
 
-RUN mkdir -p /app/logs /run/app
+# STEP 4 CHANGE (F-09, ASD V-222430 - least privilege):
+#  - dedicated unprivileged user (UID 10001) instead of root
+#  - group 101 is shared with the unprivileged nginx user so nginx can use
+#    the Unix socket, and nobody else can
+#  - only the three directories the app must write to are writable by it;
+#    the application code itself is owned by root and read-only to the app
+#  - setuid/setgid bits removed so no binary can be used to regain root
+RUN groupadd --gid 101 web \
+ && useradd --uid 10001 --gid web --no-create-home --shell /usr/sbin/nologin appuser \
+ && mkdir -p /app/logs /run/app /data \
+ && chown appuser:web /app/logs /data \
+ && chown appuser:web /run/app \
+ && chmod 750 /app/logs \
+ && chmod 700 /data \
+ && chmod 770 /run/app
+RUN find / -xdev -perm /6000 -type f -exec chmod a-s {} + 2>/dev/null; true
 
-# STEP 3 CHANGE (F-07 / F-08):
-#  - gunicorn (production WSGI server) replaces the Flask development server
-#  - it listens on a Unix socket in a volume shared ONLY with nginx, so there is
-#    no TCP port at all: the app cannot be reached except through nginx/TLS
-#  - umask 000 lets the nginx worker use the socket; tightened to a shared
-#    group in Step 4 when both containers stop running as root
-CMD ["gunicorn", "--bind", "unix:/run/app/app.sock", "--umask", "000", \
-     "--workers", "2", "--access-logfile", "-", "app:app"]
+USER appuser:web
+
+# STEP 3 CHANGE (F-07 / F-08): gunicorn on a Unix socket, no TCP port at all.
+# STEP 4 CHANGE: umask 007 -> socket is rwx for appuser + group web (nginx)
+# only, instead of world-writable; heartbeat files go to /dev/shm because the
+# root filesystem is read-only.
+CMD ["gunicorn", "--bind", "unix:/run/app/app.sock", "--umask", "007", \
+     "--workers", "2", "--worker-tmp-dir", "/dev/shm", \
+     "--access-logfile", "-", "app:app"]

@@ -63,6 +63,9 @@ def init_storage():
                 size_bytes    INTEGER NOT NULL,
                 created_at    TEXT NOT NULL
             )""")
+    # STEP 4 CHANGE (ASD V-222430/V-222587): metadata DB readable by the app
+    # user only (Step 2 retest showed it was created -rw-r--r--)
+    os.chmod(DB_PATH, 0o600)
 
 
 def blob_path(file_id):

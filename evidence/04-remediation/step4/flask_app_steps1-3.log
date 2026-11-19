@@ -1,0 +1,65 @@
+2026-11-19 00:26:09,360 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.2:5000
+2026-11-19 00:26:09,360 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-11-19 00:29:03,173 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.2:5000
+2026-11-19 00:29:03,174 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-11-19 00:29:27,184 INFO app Thread-1 (process_request_thread) : File step1.txt encrypted and saved to /tmp/step1.txt.enc with key 247
+2026-11-19 00:29:27,185 INFO werkzeug Thread-1 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:29:27] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:02,977 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.2:5000
+2026-11-19 00:54:02,977 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-11-19 00:54:06,046 INFO app Thread-1 (process_request_thread) : File encrypted id=bee91c95c4f84acdb8a3b25adfcb533d name=s2_plain.txt size=51
+2026-11-19 00:54:06,046 INFO werkzeug Thread-1 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,373 INFO app Thread-2 (process_request_thread) : File decrypted id=bee91c95c4f84acdb8a3b25adfcb533d
+2026-11-19 00:54:06,374 INFO werkzeug Thread-2 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /decrypt HTTP/1.1" 200 -
+2026-11-19 00:54:06,401 WARNING app Thread-3 (process_request_thread) : Decryption failed id=bee91c95c4f84acdb8a3b25adfcb533d
+2026-11-19 00:54:06,401 INFO werkzeug Thread-3 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "[31m[1mPOST /decrypt HTTP/1.1[0m" 400 -
+2026-11-19 00:54:06,507 INFO app Thread-4 (process_request_thread) : File encrypted id=af6377e0521e4f02a08bd53a6d7b262f name=etc_passwd size=2
+2026-11-19 00:54:06,507 INFO werkzeug Thread-4 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,517 INFO app Thread-5 (process_request_thread) : File encrypted id=be41ff87ad00402099f250f5c193b905 name=s2_plain.txt size=51
+2026-11-19 00:54:06,518 INFO werkzeug Thread-5 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,538 INFO app Thread-6 (process_request_thread) : File encrypted id=2c5b7f1e303b43ac886d217d4d706aca name=s2_plain.txt size=51
+2026-11-19 00:54:06,538 INFO werkzeug Thread-6 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,567 INFO app Thread-7 (process_request_thread) : File encrypted id=b18103ac41b74e848ff3a3e49667e064 name=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.txt size=2
+2026-11-19 00:54:06,567 INFO werkzeug Thread-7 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,584 INFO app Thread-8 (process_request_thread) : File encrypted id=e47ebf09ef1f4af2a4780eefa9604c2e name=s2_empty.txt size=0
+2026-11-19 00:54:06,584 INFO werkzeug Thread-8 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "POST /upload HTTP/1.1" 200 -
+2026-11-19 00:54:06,610 INFO werkzeug Thread-9 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:06] "[31m[1mPOST /upload HTTP/1.1[0m" 400 -
+2026-11-19 00:54:17,467 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.2:5000
+2026-11-19 00:54:17,467 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-11-19 00:54:21,515 INFO app Thread-1 (process_request_thread) : File decrypted id=bee91c95c4f84acdb8a3b25adfcb533d
+2026-11-19 00:54:21,516 INFO werkzeug Thread-1 (process_request_thread) : 172.18.0.3 - - [19/Nov/2026 00:54:21] "POST /decrypt HTTP/1.1" 200 -
+2026-11-19 01:04:46,983 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://127.0.0.1:5000
+2026-11-19 01:04:46,983 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-11-19 01:04:50,296 INFO werkzeug Thread-1 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:04:50] "HEAD / HTTP/1.1" 200 -
+2026-11-19 01:04:50,646 INFO werkzeug Thread-2 (process_request_thread) : 172.20.0.1 - - [19/Nov/2026 01:04:50] "GET / HTTP/1.1" 200 -
+2026-11-19 01:04:50,795 INFO app Thread-3 (process_request_thread) : File encrypted id=27d2dfac43994048a60c00ad6a5cf9cd name=s3_plain.txt size=30
+2026-11-19 01:04:50,795 INFO werkzeug Thread-3 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:04:50] "POST /upload HTTP/1.1" 200 -
+2026-11-19 01:04:50,841 INFO app Thread-4 (process_request_thread) : File decrypted id=27d2dfac43994048a60c00ad6a5cf9cd
+2026-11-19 01:04:50,841 INFO werkzeug Thread-4 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:04:50] "POST /decrypt HTTP/1.1" 200 -
+2026-11-19 01:05:03,088 INFO werkzeug Thread-5 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:05:03] "GET / HTTP/1.1" 200 -
+2026-11-19 01:05:03,111 INFO werkzeug Thread-6 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:05:03] "[33mPOST /sdk HTTP/1.1[0m" 404 -
+2026-11-19 01:05:03,113 INFO werkzeug Thread-7 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:05:03] "[33mGET /nmaplowercheck1795050303 HTTP/1.1[0m" 404 -
+2026-11-19 01:05:03,123 INFO werkzeug Thread-8 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:05:03] "[33mGET /HNAP1 HTTP/1.1[0m" 404 -
+2026-11-19 01:05:03,128 INFO werkzeug Thread-9 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:05:03] "[33mGET /evox/about HTTP/1.1[0m" 404 -
+2026-11-19 01:05:03,139 INFO werkzeug Thread-10 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:05:03] "GET / HTTP/1.1" 200 -
+2026-11-19 01:05:03,146 INFO werkzeug Thread-11 (process_request_thread) : 172.20.0.3 - - [19/Nov/2026 01:05:03] "GET / HTTP/1.1" 200 -
+2026-11-19 01:09:57,447 INFO app MainThread : File encrypted id=19ba24363f1f4214acf4ad5af01560c1 name=s3_plain.txt size=30
+2026-11-19 01:09:57,492 INFO app MainThread : File decrypted id=19ba24363f1f4214acf4ad5af01560c1
+2026-11-19 01:12:35,722 INFO app MainThread : File encrypted id=e971e89438de4c5eb7e084a98e018966 name=s3_plain.txt size=30
+2026-11-19 01:12:35,767 INFO app MainThread : File decrypted id=e971e89438de4c5eb7e084a98e018966
+2026-11-19 01:20:54,516 INFO app MainThread : File encrypted id=2d37ce2f768a48bb86862cb691d79643 name=demo.txt size=39
+2026-11-19 01:23:17,326 INFO app MainThread : File decrypted id=2d37ce2f768a48bb86862cb691d79643

@@ -1,0 +1,71 @@
+
+===== 1. Containers, health and port mapping =====
+NAME                IMAGE             COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+final-app-flask-1   final-app-flask   "gunicorn --bind uni…"   flask     25 minutes ago   Up 25 minutes (healthy)   
+final-app-nginx-1   final-app-nginx   "/docker-entrypoint.…"   nginx     25 minutes ago   Up 25 minutes             0.0.0.0:80->8080/tcp, [::]:80->8080/tcp, 0.0.0.0:443->8443/tcp, [::]:443->8443/tcp
+
+===== 2. Which user each container runs as (baseline: root) =====
+flask: uid=10001(appuser) gid=101(web) groups=101(web)
+nginx: uid=101(nginx) gid=101(nginx) groups=101(nginx)
+nginx processes:
+USER     PID   COMMAND
+nginx        1 nginx: master process nginx -g daemon off;
+nginx       22 nginx: worker process
+nginx       54 ps -o user,pid,args
+
+===== 3. Hardening settings applied by Docker =====
+final-app-flask-1: ReadonlyRootfs=true CapDrop=[ALL] SecurityOpt=[no-new-privileges:true] Privileged=false PidsLimit=100 Memory=268435456 Restart=unless-stopped User=appuser:web
+final-app-nginx-1: ReadonlyRootfs=true CapDrop=[ALL] SecurityOpt=[no-new-privileges:true] Privileged=false PidsLimit=100 Memory=134217728 Restart=unless-stopped User=101
+
+===== 4. Effective Linux capabilities inside the containers (0 = none) =====
+CapEff:	0000000000000000
+CapEff:	0000000000000000
+
+===== 5. Root filesystem is read-only (attempted writes must fail) =====
+touch: cannot touch '/app/app.py': Permission denied
+sh: 1: cannot create /app/evil.py: Read-only file system
+touch: cannot touch '/etc/passwd': Permission denied
+sh: can't create /etc/nginx/nginx.conf: Read-only file system
+
+===== 6. Cannot become root (no sudo/su, no setuid binaries) =====
+Password: su: Authentication failure
+-rwxr-xr-x 1 root root 84360 Jul 31 15:34 /bin/su
+setuid/setgid files: 0
+
+===== 7. pip removed from the runtime image =====
+/usr/local/bin/python: No module named pip
+
+===== 8. File and socket permissions =====
+total 0
+srwxrwx--- 1 10001 101 0 Nov 19 01:38 app.sock
+total 12
+-rw------- 1 10001 101 12288 Nov 19 01:38 files.db
+total 0
+-rw-r--r-- 1 10001 101 0 Nov 19 01:38 flask_app.log
+cert key: -rw-r----- 1 1001 101 306 Nov 19 01:04 certs/nginx.key
+
+===== 9. Functional round trip still works over HTTPS =====
+{"encryption_key":"3pRP1a7aA21e3jrJZ8Xm3xPPh8UxdUuB1oLMHUK-kL8=","file_id":"5c6e73a81125480f91d47ae12504acd7","filename":"s4_plain.txt","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+f54dab29e9cc39101de0a976878fab204453043979be23219dfab58a649f7c30  /tmp/s4_plain.txt
+f54dab29e9cc39101de0a976878fab204453043979be23219dfab58a649f7c30  /tmp/s4_decrypted.txt
+HTTP->HTTPS redirect still works: 301 -> https://localhost/
+
+===== 10. Self-healing: kill gunicorn, Docker restarts it =====
+NAME                IMAGE             COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+final-app-flask-1   final-app-flask   "gunicorn --bind uni…"   flask     26 minutes ago   Up 11 seconds (healthy)   
+
+===== 11. Grype CVE scan after patching (same day, same DB) =====
+--- flask (step 4)
+     77 High
+     17 Low
+     82 Medium
+     50 Negligible
+--- flask fixable Highs:
+18
+--- nginx original (nginx:alpine)
+      1 Critical
+      8 High
+      5 Medium
+--- nginx (step 4)
+      8 High
+      5 Medium

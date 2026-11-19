@@ -1,9 +1,20 @@
-FROM nginx:alpine
+# STEP 4 CHANGE (F-09, ASD V-222430 / Web SRG least privilege):
+# The official nginx image starts its master process as root. The official
+# *unprivileged* variant runs every nginx process as UID 101 instead. Because
+# a non-root process cannot bind ports below 1024, nginx listens on 8080/8443
+# inside the container and Docker maps host ports 80/443 to them.
+FROM nginxinc/nginx-unprivileged:alpine
+
+# STEP 4 CHANGE (F-10): apply all available Alpine security updates
+# (grype flagged libxslt and zlib in the base image). Needs root briefly.
+USER root
+RUN apk upgrade --no-cache
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # STEP 3 CHANGE (F-07): TLS enabled. The certificate and private key are
 # mounted at runtime from ./certs (read-only) instead of being copied into
-# the image, so the private key never ends up inside an image layer or a
-# registry. See gen_certs.sh.
+# the image, so the private key never ends up inside an image layer.
 RUN mkdir -p /etc/nginx/certs
+
+USER 101
