@@ -51,3 +51,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Show/hide toggle for password and key fields.
+// ASD V-222554 (passwords must not be displayed in clear text): fields are
+// hidden by default, revealed only when the user deliberately presses Show,
+// re-hidden automatically after 10 seconds and whenever the form is submitted.
+document.addEventListener("DOMContentLoaded", () => {
+  const HIDE_AFTER_MS = 10000;
+  document.querySelectorAll('input[type="password"]').forEach((input) => {
+    const wrap = document.createElement("span");
+    wrap.className = "pw-wrap";
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "pw-toggle";
+    btn.textContent = "Show";
+    btn.setAttribute("aria-pressed", "false");
+    btn.setAttribute("aria-label", "Show " + (input.getAttribute("aria-label") || "password"));
+    wrap.appendChild(btn);
+
+    let timer = null;
+    const hide = () => {
+      input.type = "password";
+      btn.textContent = "Show";
+      btn.setAttribute("aria-pressed", "false");
+      clearTimeout(timer);
+    };
+    btn.addEventListener("click", () => {
+      if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "Hide";
+        btn.setAttribute("aria-pressed", "true");
+        timer = setTimeout(hide, HIDE_AFTER_MS);
+      } else {
+        hide();
+      }
+      input.focus();
+    });
+    if (input.form) input.form.addEventListener("submit", hide);
+  });
+});

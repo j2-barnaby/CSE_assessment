@@ -41,8 +41,12 @@
               <form method="post" action="{{ url_for('decrypt') }}" class="inline">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                 <input type="hidden" name="file_id" value="{{ f['id'] }}">
-                <input name="key" type="password" placeholder="Paste key" required
-                       autocomplete="off" aria-label="Decryption key for {{ f['original_name'] }}">
+                {# Plain text on purpose: a password-type field made browsers autofill
+                   the user's LOGIN password here and offer to save file keys as passwords. #}
+                <input name="key" type="text" class="keyfield" placeholder="Paste key" required
+                       autocomplete="off" autocapitalize="off" spellcheck="false"
+                       data-lpignore="true" data-1p-ignore data-form-type="other"
+                       aria-label="Decryption key for {{ f['original_name'] }}">
                 <button type="submit" class="btn btn-small">Decrypt</button>
               </form>
             </td>

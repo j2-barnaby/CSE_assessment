@@ -51,7 +51,7 @@ a { color: var(--brand); }
 code { font-size: .85rem; background: var(--bg); padding: .1rem .3rem; border-radius: 4px; }
 
 .stack { display: flex; flex-direction: column; gap: .35rem; margin-top: 1rem; }
-.stack button { margin-top: .9rem; }
+.stack > button { margin-top: .9rem; }
 label { font-weight: 560; font-size: .9rem; margin-top: .45rem; }
 input[type=text], input:not([type]), input[type=password] {
   font: inherit; padding: .6rem .7rem; border: 1px solid var(--line); border-radius: 8px;
@@ -115,3 +115,19 @@ form.inline input { padding: .4rem .55rem; min-width: 150px; }
   .topbar { flex-direction: column; align-items: flex-start; }
   .who { display: none; }
 }
+
+/* Show/hide password toggle (added by app.js) */
+.pw-wrap { position: relative; display: block; width: 100%; }
+.pw-wrap input { padding-right: 4.2rem; display: block; }
+.pw-toggle { position: absolute; right: .35rem; top: 50%; transform: translateY(-50%);
+             font: inherit; font-size: .78rem; font-weight: 600; color: var(--brand);
+             background: var(--brand-soft); border: 0; border-radius: 6px;
+             padding: .25rem .55rem; cursor: pointer; }
+.pw-toggle:hover { filter: brightness(.96); }
+.pw-toggle[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); }
+form.inline .pw-wrap { width: auto; flex: 1; }
+form.inline .pw-wrap input { width: 100%; }
+
+/* Decryption key boxes: plain text (not password) so browsers never autofill
+   or save them; monospace so long keys are easy to check. */
+.keyfield { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: .82rem; }
