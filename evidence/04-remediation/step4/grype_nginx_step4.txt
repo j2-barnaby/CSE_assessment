@@ -1,0 +1,14 @@
+NAME           INSTALLED   TYPE  VULNERABILITY    SEVERITY  EPSS         RISK  
+libcrypto3     3.5.9-r1    apk   CVE-2026-95692   High      0.4% (39th)  0.3   
+libssl3        3.5.9-r1    apk   CVE-2026-95692   High      0.4% (39th)  0.3   
+libcrypto3     3.5.9-r1    apk   CVE-2026-107496  High      0.3% (27th)  0.3   
+libssl3        3.5.9-r1    apk   CVE-2026-107496  High      0.3% (27th)  0.3   
+libcrypto3     3.5.9-r1    apk   CVE-2026-95691   High      0.3% (21st)  0.2   
+libssl3        3.5.9-r1    apk   CVE-2026-95691   High      0.3% (21st)  0.2   
+libcrypto3     3.5.9-r1    apk   CVE-2026-88823   High      0.3% (19th)  0.2   
+libssl3        3.5.9-r1    apk   CVE-2026-88823   High      0.3% (19th)  0.2   
+busybox        1.37.0-r31  apk   CVE-2025-60876   Medium    0.3% (24th)  0.2   
+busybox-binsh  1.37.0-r31  apk   CVE-2025-60876   Medium    0.3% (24th)  0.2   
+ssl_client     1.37.0-r31  apk   CVE-2025-60876   Medium    0.3% (24th)  0.2   
+libcrypto3     3.5.9-r1    apk   CVE-2026-88822   Medium    0.3% (17th)  0.1   
+libssl3        3.5.9-r1    apk   CVE-2026-88822   Medium    0.3% (17th)  0.1

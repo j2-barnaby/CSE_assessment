@@ -1,0 +1,9 @@
+# STEP 4: keep runtime data, secrets and tooling out of the Docker build context.
+# - logs/ is owned by the container user (protected audit data)
+# - certs/ holds private keys: they are mounted at runtime, never built in
+logs/
+certs/
+*.sh
+*.md
+.git
+__pycache__/

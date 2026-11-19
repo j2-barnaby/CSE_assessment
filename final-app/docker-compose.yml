@@ -1,0 +1,69 @@
+services:
+  flask:
+    build:
+      context: .
+      dockerfile: flask_dockerfile
+    volumes:
+      # STEP 4 CHANGE: logs in a named volume owned by appuser (750). A host
+      # bind mount would need host-side permission changes and broke the build.
+      - app_logs:/app/logs
+      # STEP 2 CHANGE (F-05): encrypted files persist across restarts
+      - encrypted_data:/data
+      # STEP 3 CHANGE: Unix socket shared with nginx
+      - app_socket:/run/app
+    # STEP 3 CHANGE (F-07, iteration 2): no network interface at all.
+    # Iteration 1 used an `internal: true` network, but retesting showed the
+    # host could still reach http://<flask-ip>:5000. nginx now reaches Flask
+    # only through the Unix socket; Flask cannot make outbound connections.
+    network_mode: none
+
+    # ---- STEP 4 CHANGES (F-09, ASD V-222430; container hardening) ----
+    read_only: true                    # root filesystem cannot be modified
+    tmpfs:
+      - /tmp:size=16m,mode=1777,noexec,nosuid
+    cap_drop: [ALL]                    # no Linux capabilities at all
+    security_opt:
+      - no-new-privileges:true         # cannot gain privileges via setuid etc.
+    pids_limit: 100                    # fork-bomb protection
+    mem_limit: 256m                    # resource limits (Web SRG V-206433)
+    cpus: 1.0
+    restart: unless-stopped
+    healthcheck:                       # healthy = the socket accepts connections
+      test: ["CMD", "python", "-c", "import socket; s=socket.socket(socket.AF_UNIX); s.connect('/run/app/app.sock')"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx_dockerfile
+    ports:
+      - "80:8080"     # redirect-only (non-root nginx listens on 8080)
+      - "443:8443"    # HTTPS        (non-root nginx listens on 8443)
+    volumes:
+      # certificate + private key mounted read-only, never baked into the image
+      - ./certs:/etc/nginx/certs:ro
+      - app_socket:/run/app
+    # STEP 4 CHANGE: wait until Flask is actually serving, not just started
+    depends_on:
+      flask:
+        condition: service_healthy
+
+    # ---- STEP 4 CHANGES (container hardening) ----
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777,noexec,nosuid
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    mem_limit: 128m
+    cpus: 1.0
+    restart: unless-stopped
+
+volumes:
+  encrypted_data:
+  app_socket:
+  app_logs:

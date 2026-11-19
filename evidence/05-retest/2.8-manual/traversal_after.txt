@@ -1,0 +1,3 @@
+{"encryption_key":"JRXb0c_Xh2Hjf7wB4sDpBWMEsuw4uJd3an1wB4_Xb-I=","file_id":"edac924ff6004cfab0a3cfddb80d6f15","filename":"etc_passwd","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+
+HTTP 200

@@ -1,0 +1,3 @@
+{"encryption_key":"z1g6mpqOZYA3c_d9MOwqn3y6CUgtvyKnbMXs3yY2XRY=","file_id":"e44a1db033c043fca1bb195e4e8e9ea6","filename":"empty.txt","message":"File encrypted and stored. Save this key - it cannot be recovered."}
+
+HTTP 200

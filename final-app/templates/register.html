@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block content %}
+<section class="card card-narrow">
+  <h1>Create an account</h1>
+  <form method="post" action="{{ url_for('register') }}" class="stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="username">Username</label>
+    <input id="username" name="username" value="{{ username or '' }}" required
+           autocomplete="username" pattern="[A-Za-z0-9_.\-]{3,32}" maxlength="32"
+           title="3-32 characters: letters, numbers, . _ -">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required
+           autocomplete="new-password" minlength="{{ min_password_len }}" maxlength="128"
+           data-password-rules>
+    <ul class="rules" id="password-rules" aria-live="polite">
+      <li data-rule="length">At least {{ min_password_len }} characters</li>
+      <li data-rule="upper">An uppercase letter</li>
+      <li data-rule="lower">A lowercase letter</li>
+      <li data-rule="digit">A number</li>
+      <li data-rule="special">A special character</li>
+    </ul>
+    <label for="confirm">Confirm password</label>
+    <input id="confirm" name="confirm" type="password" required
+           autocomplete="new-password" maxlength="128">
+    <button type="submit" class="btn btn-primary">Create account</button>
+  </form>
+  <p class="switch">Already registered? <a href="{{ url_for('login') }}">Sign in</a></p>
+</section>
+{% endblock %}

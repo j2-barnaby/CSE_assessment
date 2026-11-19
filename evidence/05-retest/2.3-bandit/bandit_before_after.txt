@@ -1,0 +1,23 @@
+--- original-app/flask_app.py
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   Location: /src/original-app/flask_app.py:3:0
+>> Issue: [B602:subprocess_popen_with_shell_equals_true] subprocess call with shell=True identified, security issue.
+   Severity: High   Confidence: High
+   Location: /src/original-app/flask_app.py:16:12
+>> Issue: [B602:subprocess_popen_with_shell_equals_true] subprocess call with shell=True identified, security issue.
+   Severity: High   Confidence: High
+   Location: /src/original-app/flask_app.py:21:8
+>> Issue: [B108:hardcoded_tmp_directory] Probable insecure usage of temp file/directory.
+   Severity: Medium   Confidence: Medium
+   Location: /src/original-app/flask_app.py:38:39
+>> Issue: [B104:hardcoded_bind_all_interfaces] Possible binding to all interfaces.
+   Severity: Medium   Confidence: Medium
+   Location: /src/original-app/flask_app.py:94:17
+	Total lines of code: 55
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+	Total issues (by severity):
+	Total issues (by confidence):
+--- final-app/flask_app.py
+No issues identified.
