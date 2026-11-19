@@ -437,7 +437,9 @@ def finish_request(response):
                     outcome="success" if response.status_code < 400 else "failure",
                     status=response.status_code,
                     duration_ms=round((time.perf_counter() - g.start) * 1000, 1),
-                    user_agent=(request.headers.get("User-Agent") or "")[:200])
+                    user_agent=(request.headers.get("User-Agent") or "")[:200],
+                    # ASD V-222447: HTTP headers incl. User-Agent and Referer
+                    referer=(request.headers.get("Referer") or "")[:200] or None)
     return response
 
 

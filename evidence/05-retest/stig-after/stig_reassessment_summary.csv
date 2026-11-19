@@ -1,0 +1,413 @@
+checklist,rule,severity,before,after,evidence / justification
+ASD STIG V6R5,V-222387,medium,not_reviewed,not_a_finding,Max 3 concurrent sessions per user; oldest evicted (MAX_SESSIONS_PER_USER). Evidence: step6 test 14.
+ASD STIG V6R5,V-222388,medium,not_reviewed,not_a_finding,"Logout returns Clear-Site-Data: ""cookies"", ""storage"" and deletes the server-side session. Evidence: step6 test 13."
+ASD STIG V6R5,V-222389,medium,not_reviewed,not_a_finding,15-minute idle timeout enforced server-side (IDLE_TIMEOUT); expired sessions destroyed and logged. Evidence: step6 test 12.
+ASD STIG V6R5,V-222390,medium,not_reviewed,not_applicable,No administrative web sessions exist; administration is only via CLI inside the container (flask unlock-user/list-users).
+ASD STIG V6R5,V-222391,medium,not_reviewed,not_a_finding,Sign out button on every authenticated page (POST /logout with CSRF token).
+ASD STIG V6R5,V-222392,low,not_reviewed,not_a_finding,Explicit logoff page: 'You have been signed out... session ID destroyed on the server'. Evidence: step6 test 13.
+ASD STIG V6R5,V-222393,medium,not_reviewed,not_applicable,Application does not use security attributes/labels on information.
+ASD STIG V6R5,V-222394,medium,not_reviewed,not_applicable,Application does not use security attributes/labels on information.
+ASD STIG V6R5,V-222395,medium,not_reviewed,not_applicable,Application does not use security attributes/labels on information.
+ASD STIG V6R5,V-222396,medium,not_reviewed,not_a_finding,"All remote access over TLS 1.2/1.3 with NIST SP 800-52r2 AES-GCM suites only. Evidence: step3 tests 5-6, 05-retest/2.7-network."
+ASD STIG V6R5,V-222397,medium,not_reviewed,not_a_finding,TLS AEAD cipher suites (AES-GCM) protect session integrity. Evidence: step3 test 6.
+ASD STIG V6R5,V-222398,medium,not_reviewed,not_applicable,No SOAP messages.
+ASD STIG V6R5,V-222399,high,not_reviewed,not_applicable,No WS-Security.
+ASD STIG V6R5,V-222400,high,not_reviewed,not_applicable,No WS-Security or SAML.
+ASD STIG V6R5,V-222401,medium,not_reviewed,not_applicable,No SAML.
+ASD STIG V6R5,V-222402,medium,not_reviewed,not_applicable,No SAML.
+ASD STIG V6R5,V-222403,high,not_reviewed,not_applicable,No SAML.
+ASD STIG V6R5,V-222404,high,not_reviewed,not_applicable,No SAML.
+ASD STIG V6R5,V-222405,medium,not_reviewed,not_applicable,No SAML.
+ASD STIG V6R5,V-222406,medium,not_reviewed,not_applicable,No SAML SessionIndex.
+ASD STIG V6R5,V-222407,medium,not_reviewed,not_a_finding,"Automated account management: self-registration with policy checks, automatic lockout, automatic 35-day inactivity disable, admin CLI unlock/list-users."
+ASD STIG V6R5,V-222408,medium,not_reviewed,not_applicable,No shared/group accounts exist.
+ASD STIG V6R5,V-222409,medium,not_reviewed,not_applicable,No temporary accounts are issued.
+ASD STIG V6R5,V-222410,low,not_reviewed,not_applicable,No emergency accounts exist.
+ASD STIG V6R5,V-222411,low,not_reviewed,not_a_finding,Accounts unused for 35 days are disabled at next login attempt and logged (account_disable).
+ASD STIG V6R5,V-222412,medium,not_reviewed,not_a_finding,No default or unnecessary application accounts; container users have /usr/sbin/nologin.
+ASD STIG V6R5,V-222413,medium,not_reviewed,not_a_finding,account_create events (success and failure) in the audit log. Evidence: step6 test 16.
+ASD STIG V6R5,V-222414,medium,not_reviewed,not_a_finding,"Account modifications (lock, unlock) are audited: account_lock, account_unlock."
+ASD STIG V6R5,V-222415,medium,not_reviewed,not_a_finding,Account disabling audited: account_disable (35-day inactivity).
+ASD STIG V6R5,V-222416,medium,not_reviewed,not_applicable,"Application has no account removal function. If added, deletions cascade to sessions and must be audited."
+ASD STIG V6R5,V-222417,low,not_reviewed,open,No notification to SA/ISSO on account events; events are logged only. POA&M R-05 (central logging and alerting).
+ASD STIG V6R5,V-222418,low,not_reviewed,open,No notification to SA/ISSO on account events. POA&M R-05.
+ASD STIG V6R5,V-222419,low,not_reviewed,open,No notification to SA/ISSO on account events. POA&M R-05.
+ASD STIG V6R5,V-222420,low,not_reviewed,open,No notification to SA/ISSO on account events. POA&M R-05.
+ASD STIG V6R5,V-222421,medium,not_reviewed,not_a_finding,Account re-enabling (admin unlock) audited: account_unlock with actor.
+ASD STIG V6R5,V-222422,low,not_reviewed,open,No notification to SA/ISSO on account events. POA&M R-05.
+ASD STIG V6R5,V-222423,medium,not_reviewed,not_a_finding,"Data protection requirements documented: scenario document plus Part 2 report (AES-256-GCM at rest, TLS in transit)."
+ASD STIG V6R5,V-222424,medium,not_reviewed,not_applicable,No organisation-defined data mining detection requirement for this data store.
+ASD STIG V6R5,V-222425,high,not_reviewed,not_a_finding,Every file query checks owner_id; another user's file returns 404 even with the correct key. Evidence: step6 test 8.
+ASD STIG V6R5,V-222426,medium,not_reviewed,not_a_finding,"Discretionary access control: each file is owned by one user; only the owner can list, decrypt or delete it."
+ASD STIG V6R5,V-222427,medium,not_reviewed,not_a_finding,Information flow enforced: clients reach Flask only via nginx/TLS over a Unix socket. Evidence: step3 test 8.
+ASD STIG V6R5,V-222428,medium,not_reviewed,not_a_finding,"Flask container has network_mode: none, so it cannot exchange data with any other system. Evidence: step3 tests 8-9."
+ASD STIG V6R5,V-222429,medium,not_reviewed,not_a_finding,Web users have no privileged functions; administrative commands are only available via CLI inside the container.
+ASD STIG V6R5,V-222430,high,open,not_a_finding,"Flask runs as UID 10001, nginx as UID 101; read-only root FS; cap_drop ALL; no-new-privileges. Evidence: step4 tests 2-6."
+ASD STIG V6R5,V-222431,medium,not_reviewed,not_a_finding,Privileged CLI functions are audited (account_unlock with actor 'administrator (CLI)').
+ASD STIG V6R5,V-222432,high,not_reviewed,not_a_finding,3 failed logons within 15 minutes lock the account for 15 minutes. Evidence: step6 test 10.
+ASD STIG V6R5,V-222433,medium,not_reviewed,not_a_finding,Documented admin unlock process: docker compose exec flask flask --app app unlock-user <name> (audited).
+ASD STIG V6R5,V-222434,low,not_reviewed,open,No DoD Notice and Consent Banner displayed. POA&M R-14 (add banner before DoD deployment).
+ASD STIG V6R5,V-222435,low,not_reviewed,open,No DoD Notice and Consent Banner. POA&M R-14.
+ASD STIG V6R5,V-222436,low,not_reviewed,open,No DoD Notice and Consent Banner. POA&M R-14.
+ASD STIG V6R5,V-222437,low,not_reviewed,not_a_finding,Previous sign-in time and source IP shown on the dashboard. Evidence: step6 test 11.
+ASD STIG V6R5,V-222438,medium,not_reviewed,not_a_finding,"Non-repudiation supported by audit records with username, source IP, time and request ID for every action."
+ASD STIG V6R5,V-222439,medium,not_reviewed,not_applicable,Application does not aggregate audit records from other components.
+ASD STIG V6R5,V-222441,medium,not_reviewed,not_a_finding,session_created audited at every login. Evidence: step6 test 16.
+ASD STIG V6R5,V-222442,medium,not_reviewed,not_a_finding,session_destroyed audited at logout. Evidence: step6 test 16.
+ASD STIG V6R5,V-222443,medium,not_reviewed,not_applicable,Session IDs are never renewed; a new ID is created only at login (audited as session_created).
+ASD STIG V6R5,V-222444,medium,not_reviewed,not_a_finding,"No keys, passwords or file contents written to logs. Evidence: step5 test 5, step6 test 16 (0 occurrences)."
+ASD STIG V6R5,V-222445,medium,not_reviewed,not_a_finding,session_timeout audited with reason (idle/absolute). Evidence: step6 test 16.
+ASD STIG V6R5,V-222446,medium,not_reviewed,not_a_finding,Every record has a UTC ISO-8601 timestamp with milliseconds (ts).
+ASD STIG V6R5,V-222447,medium,not_reviewed,not_a_finding,"http_request records method, path, User-Agent and Referer; nginx log records method, URI, User-Agent and Referer."
+ASD STIG V6R5,V-222448,medium,not_reviewed,not_a_finding,src_ip recorded on every request (real client IP via nginx; spoofed X-Forwarded-For ignored). Evidence: step5 test 6.
+ASD STIG V6R5,V-222449,medium,not_reviewed,not_a_finding,user field on every record (username or 'anonymous').
+ASD STIG V6R5,V-222450,medium,not_reviewed,not_applicable,Single user role; no privileges can be granted.
+ASD STIG V6R5,V-222451,medium,not_reviewed,not_a_finding,"Security objects (accounts, sessions) access attempts are audited: login, session_created, access_denied."
+ASD STIG V6R5,V-222452,medium,not_reviewed,not_applicable,No security levels in the application.
+ASD STIG V6R5,V-222453,medium,not_reviewed,not_applicable,No information categories/classification levels.
+ASD STIG V6R5,V-222454,medium,not_reviewed,not_applicable,Single user role; no privileges can be modified.
+ASD STIG V6R5,V-222455,medium,not_reviewed,not_a_finding,"Modifications to security objects audited: account_lock, account_unlock, account_disable."
+ASD STIG V6R5,V-222456,medium,not_reviewed,not_applicable,No security levels.
+ASD STIG V6R5,V-222457,medium,not_reviewed,not_applicable,No information categories.
+ASD STIG V6R5,V-222458,medium,not_reviewed,not_applicable,Single user role; no privileges can be deleted.
+ASD STIG V6R5,V-222459,medium,not_reviewed,not_applicable,No security levels.
+ASD STIG V6R5,V-222460,medium,not_reviewed,not_a_finding,"Deletion of session records audited (session_destroyed, session_timeout)."
+ASD STIG V6R5,V-222461,medium,not_reviewed,not_applicable,No information categories.
+ASD STIG V6R5,V-222462,medium,not_reviewed,not_a_finding,login success and failure audited with reason. Evidence: step6 test 16.
+ASD STIG V6R5,V-222463,medium,not_reviewed,not_a_finding,Privileged CLI activity audited (account_unlock).
+ASD STIG V6R5,V-222464,medium,not_reviewed,not_a_finding,Start and end of access audited: login/session_created and logout/session_destroyed/session_timeout.
+ASD STIG V6R5,V-222465,medium,not_reviewed,not_a_finding,"Object access audited: file_decrypt success/failure, access_denied."
+ASD STIG V6R5,V-222466,medium,not_reviewed,not_a_finding,"Every HTTP request audited by nginx (proxy_request) and Flask (http_request), correlated by request_id."
+ASD STIG V6R5,V-222467,medium,not_reviewed,not_a_finding,"account_create, account_lock, account_unlock, account_disable audited."
+ASD STIG V6R5,V-222468,medium,open,not_a_finding,app_start audited at startup. Evidence: step5 tests 1 and 11.
+ASD STIG V6R5,V-222469,medium,not_reviewed,not_a_finding,app_stop audited at shutdown. Evidence: step5 test 11.
+ASD STIG V6R5,V-222470,medium,open,not_a_finding,dst (server IP:port) on every record. Evidence: step5 test 3.
+ASD STIG V6R5,V-222471,medium,not_reviewed,not_a_finding,file_decrypt audited (data access).
+ASD STIG V6R5,V-222472,medium,not_reviewed,not_a_finding,file_encrypt and file_delete audited (data changes).
+ASD STIG V6R5,V-222473,medium,not_reviewed,not_a_finding,ts field: date and time in UTC.
+ASD STIG V6R5,V-222474,medium,not_reviewed,not_a_finding,event and path fields identify the function that triggered the record.
+ASD STIG V6R5,V-222475,medium,not_reviewed,not_a_finding,Every record tagged app=file-encryption-service for centralised logging.
+ASD STIG V6R5,V-222476,medium,not_reviewed,not_a_finding,outcome field (success/failure) on every record.
+ASD STIG V6R5,V-222477,medium,not_reviewed,not_a_finding,user field establishes identity; target_user for account events.
+ASD STIG V6R5,V-222478,medium,not_reviewed,not_a_finding,"Privileged CLI commands recorded with command, target user and actor."
+ASD STIG V6R5,V-222479,medium,not_reviewed,not_applicable,Application is not transaction-based.
+ASD STIG V6R5,V-222480,medium,not_reviewed,open,No centralised management of audit content. POA&M R-05.
+ASD STIG V6R5,V-222481,medium,not_reviewed,open,Audit records not off-loaded to another system. POA&M R-05.
+ASD STIG V6R5,V-222482,medium,not_reviewed,open,No centralised log repository. POA&M R-05.
+ASD STIG V6R5,V-222483,medium,not_reviewed,open,No storage-capacity warning. POA&M R-05.
+ASD STIG V6R5,V-222484,medium,not_reviewed,open,No real-time alerting. POA&M R-05.
+ASD STIG V6R5,V-222485,medium,not_reviewed,open,No alert on audit processing failure. POA&M R-05.
+ASD STIG V6R5,V-222486,medium,not_reviewed,open,Application does not shut down on audit failure (availability prioritised). POA&M R-05.
+ASD STIG V6R5,V-222487,medium,not_reviewed,open,No central review capability (JSON records are SIEM-ready). POA&M R-05.
+ASD STIG V6R5,V-222488,medium,not_reviewed,open,"Filtering possible with standard tools on JSON records (demonstrated), but no built-in capability. POA&M R-05."
+ASD STIG V6R5,V-222489,medium,not_reviewed,open,No audit reduction capability. POA&M R-05.
+ASD STIG V6R5,V-222490,medium,not_reviewed,open,No audit reduction capability. POA&M R-05.
+ASD STIG V6R5,V-222491,medium,not_reviewed,open,No audit reduction capability. POA&M R-05.
+ASD STIG V6R5,V-222492,medium,not_reviewed,open,No report generation capability. POA&M R-05.
+ASD STIG V6R5,V-222493,medium,not_reviewed,open,No report generation capability. POA&M R-05.
+ASD STIG V6R5,V-222494,medium,not_reviewed,open,No report generation capability. POA&M R-05.
+ASD STIG V6R5,V-222495,medium,not_reviewed,open,No audit reduction capability. POA&M R-05.
+ASD STIG V6R5,V-222496,medium,not_reviewed,open,No report generation capability. POA&M R-05.
+ASD STIG V6R5,V-222497,medium,not_reviewed,not_a_finding,Timestamps from the system clock (host clock shared by containers).
+ASD STIG V6R5,V-222498,medium,not_reviewed,not_a_finding,Timestamps in UTC (+00:00).
+ASD STIG V6R5,V-222499,medium,not_reviewed,not_a_finding,Millisecond granularity.
+ASD STIG V6R5,V-222500,medium,open,not_a_finding,audit.log is 0600 owned by appuser; log directory 0750; nginx container cannot see it. Evidence: step5 test 10.
+ASD STIG V6R5,V-222501,medium,not_reviewed,not_a_finding,Only appuser (and host root) can modify the audit log; app code cannot be modified (read-only FS).
+ASD STIG V6R5,V-222502,medium,not_reviewed,not_a_finding,Only appuser (and host root) can delete the audit log. Off-host copy tracked in POA&M R-05.
+ASD STIG V6R5,V-222503,medium,not_reviewed,not_a_finding,"Audit/logging code is part of the root-owned, read-only image; appuser cannot change it."
+ASD STIG V6R5,V-222504,medium,not_reviewed,not_a_finding,Read-only root filesystem prevents modification of audit tools. Evidence: step4 test 5.
+ASD STIG V6R5,V-222505,medium,not_reviewed,not_a_finding,Read-only root filesystem prevents deletion of audit tools.
+ASD STIG V6R5,V-222506,medium,not_reviewed,open,Audit records not backed up to another system. POA&M R-05.
+ASD STIG V6R5,V-222507,medium,not_reviewed,open,No cryptographic integrity protection (hash chain/signing) of audit records. POA&M R-05.
+ASD STIG V6R5,V-222508,medium,not_reviewed,not_a_finding,Audit tools are inside a content-addressed image (SHA-256 layer digests); base image pinned by digest.
+ASD STIG V6R5,V-222509,medium,not_reviewed,not_a_finding,Docker verifies layer SHA-256 digests on pull/build; base image digest pinned in flask_dockerfile.
+ASD STIG V6R5,V-222510,medium,not_reviewed,not_a_finding,"Users cannot install software: pip removed, read-only FS, non-root, no-new-privileges."
+ASD STIG V6R5,V-222511,medium,open,not_a_finding,Configuration is baked into read-only images; hard-coded key removed. Changes only via git + rebuild.
+ASD STIG V6R5,V-222512,medium,not_reviewed,not_a_finding,"Configuration changes are made through git commits, which record the author (branch part2-remediation)."
+ASD STIG V6R5,V-222513,medium,not_reviewed,not_a_finding,Read-only root FS and non-root users prevent installing patches or components at runtime.
+ASD STIG V6R5,V-222514,medium,not_reviewed,not_a_finding,Libraries are root-owned on a read-only filesystem.
+ASD STIG V6R5,V-222515,medium,not_reviewed,not_a_finding,Vulnerability assessment performed (Part 1) and repeated on the final build. Evidence: 05-retest.
+ASD STIG V6R5,V-222516,medium,not_reviewed,not_a_finding,"Execution limited: read-only FS, /tmp mounted noexec, no-new-privileges, setuid bits removed."
+ASD STIG V6R5,V-222517,medium,not_reviewed,open,No explicit allow-list execution policy (custom seccomp/AppArmor profile); Docker defaults apply. POA&M R-14.
+ASD STIG V6R5,V-222518,medium,not_reviewed,not_a_finding,"Non-essential capabilities disabled: cap_drop ALL, pip removed, Flask has no network."
+ASD STIG V6R5,V-222519,medium,not_reviewed,open,Organisational: PPSM CAL registration not performed (only 80 redirect and 443 TLS used). POA&M R-13.
+ASD STIG V6R5,V-222520,medium,not_reviewed,not_a_finding,Re-authentication required after 15 minutes idle and after 8 hours absolute.
+ASD STIG V6R5,V-222521,medium,not_reviewed,not_applicable,No device authentication in this application.
+ASD STIG V6R5,V-222522,high,not_reviewed,not_a_finding,Unique usernames (case-insensitive) with individual password authentication.
+ASD STIG V6R5,V-222523,medium,not_reviewed,open,No MFA for privileged access. POA&M R-06.
+ASD STIG V6R5,V-222524,medium,not_reviewed,open,PIV not supported. POA&M R-06.
+ASD STIG V6R5,V-222525,medium,not_reviewed,open,PIV not supported. POA&M R-06.
+ASD STIG V6R5,V-222526,medium,not_reviewed,open,No MFA for non-privileged users. POA&M R-06.
+ASD STIG V6R5,V-222527,medium,not_reviewed,open,"Local privileged (CLI) access relies on host authentication only, no MFA. POA&M R-06."
+ASD STIG V6R5,V-222528,medium,not_reviewed,not_applicable,No local non-privileged access to the application.
+ASD STIG V6R5,V-222529,medium,not_reviewed,not_applicable,No group authenticators.
+ASD STIG V6R5,V-222530,medium,not_reviewed,not_a_finding,"Replay resistance: TLS, per-session CSRF tokens, server-side session IDs destroyed at logout."
+ASD STIG V6R5,V-222531,medium,not_reviewed,not_a_finding,"Replay resistance: TLS, CSRF tokens, server-side sessions. Evidence: step6 test 13 (replayed cookie rejected)."
+ASD STIG V6R5,V-222532,medium,not_reviewed,not_applicable,Endpoint non-repudiation not required by the data owner.
+ASD STIG V6R5,V-222533,medium,not_reviewed,not_applicable,Users authenticate individually; device authentication not required for this service.
+ASD STIG V6R5,V-222534,medium,not_reviewed,not_applicable,Not a service-oriented application exchanging non-releasable data with endpoints.
+ASD STIG V6R5,V-222535,medium,not_reviewed,not_applicable,No device identifiers used.
+ASD STIG V6R5,V-222536,high,not_reviewed,not_a_finding,Minimum 15 characters enforced server-side. Evidence: step6 test 2.
+ASD STIG V6R5,V-222537,medium,not_reviewed,not_a_finding,Uppercase required.
+ASD STIG V6R5,V-222538,medium,not_reviewed,not_a_finding,Lowercase required.
+ASD STIG V6R5,V-222539,medium,not_reviewed,not_a_finding,Number required.
+ASD STIG V6R5,V-222540,medium,not_reviewed,not_a_finding,Special character required.
+ASD STIG V6R5,V-222541,medium,not_reviewed,open,No password change function. POA&M R-07.
+ASD STIG V6R5,V-222542,high,not_reviewed,not_a_finding,"Only salted PBKDF2-SHA256 (600,000 iterations) hashes stored. Evidence: step6 test 4."
+ASD STIG V6R5,V-222543,high,not_reviewed,not_a_finding,Passwords only transmitted over TLS 1.2/1.3.
+ASD STIG V6R5,V-222544,medium,not_reviewed,open,No password lifetime controls. POA&M R-07.
+ASD STIG V6R5,V-222545,medium,not_reviewed,open,No password expiry. POA&M R-07.
+ASD STIG V6R5,V-222546,medium,not_reviewed,open,No password history. POA&M R-07.
+ASD STIG V6R5,V-222547,medium,not_reviewed,not_applicable,Temporary passwords are not issued.
+ASD STIG V6R5,V-222548,medium,not_reviewed,not_a_finding,Passwords can only be set by the account owner at registration; no other user can change them.
+ASD STIG V6R5,V-222549,medium,not_reviewed,not_a_finding,"Sessions reference users with ON DELETE CASCADE, so any account deletion terminates its sessions."
+ASD STIG V6R5,V-222550,high,not_reviewed,not_applicable,No PKI-based user authentication.
+ASD STIG V6R5,V-222551,high,not_reviewed,not_applicable,No PKI-based user authentication.
+ASD STIG V6R5,V-222552,medium,not_reviewed,not_applicable,No PKI-based user authentication.
+ASD STIG V6R5,V-222553,medium,not_reviewed,not_applicable,No PKI-based user authentication.
+ASD STIG V6R5,V-222554,high,not_reviewed,not_a_finding,"Password fields masked by default; reveal only on user click, re-hidden after 10 s and on submit (NIST SP 800-63B). Residual risk R-10."
+ASD STIG V6R5,V-222555,high,not_reviewed,open,Cryptographic algorithms are FIPS-approved but the module is not FIPS 140-validated. POA&M R-01.
+ASD STIG V6R5,V-222556,medium,not_reviewed,not_a_finding,All users (organisational or not) are uniquely identified and authenticated.
+ASD STIG V6R5,V-222557,medium,not_reviewed,not_applicable,No federal-agency PIV users.
+ASD STIG V6R5,V-222558,medium,not_reviewed,not_applicable,No federal-agency PIV users.
+ASD STIG V6R5,V-222559,medium,not_reviewed,not_applicable,No FICAM third-party credentials.
+ASD STIG V6R5,V-222560,medium,not_reviewed,not_applicable,No FICAM third-party credentials.
+ASD STIG V6R5,V-222561,medium,not_reviewed,not_applicable,No non-local maintenance interface.
+ASD STIG V6R5,V-222562,medium,not_reviewed,not_applicable,No non-local maintenance interface.
+ASD STIG V6R5,V-222563,medium,not_reviewed,not_applicable,No non-local maintenance interface.
+ASD STIG V6R5,V-222564,medium,not_reviewed,not_applicable,No non-local maintenance interface.
+ASD STIG V6R5,V-222565,medium,not_reviewed,not_applicable,No non-local maintenance interface.
+ASD STIG V6R5,V-222566,medium,not_reviewed,not_applicable,No non-local maintenance interface.
+ASD STIG V6R5,V-222567,medium,not_reviewed,not_a_finding,"Race conditions addressed: O_EXCL file creation, SQLite transactions, session-eviction race found and fixed in retest. Evidence: 35-check suite x3."
+ASD STIG V6R5,V-222568,medium,not_reviewed,not_a_finding,Logout destroys the session; nginx closes idle connections (keepalive timeout).
+ASD STIG V6R5,V-222570,medium,not_reviewed,open,Application components are not signed with a FIPS-validated module. POA&M R-01.
+ASD STIG V6R5,V-222571,medium,not_reviewed,open,Hashing uses FIPS-approved SHA-256 but not a FIPS 140-validated module. POA&M R-01.
+ASD STIG V6R5,V-222572,medium,not_reviewed,open,AES-256-GCM is FIPS-approved but the module is not FIPS 140-validated. POA&M R-01.
+ASD STIG V6R5,V-222573,medium,not_reviewed,not_applicable,No SAML.
+ASD STIG V6R5,V-222574,medium,not_reviewed,not_a_finding,User interface (nginx/Flask) separated from data storage (private volume) and management (CLI only).
+ASD STIG V6R5,V-222575,medium,not_reviewed,not_a_finding,HttpOnly set on __Host-session cookie. Evidence: step6 test 6.
+ASD STIG V6R5,V-222576,medium,not_reviewed,not_a_finding,Secure set on __Host-session cookie. Evidence: step6 test 6.
+ASD STIG V6R5,V-222577,high,not_reviewed,not_a_finding,"Session ID only in an HttpOnly cookie; never in URLs, pages or logs (only an 8-char reference is logged)."
+ASD STIG V6R5,V-222578,high,not_reviewed,not_a_finding,Session ID destroyed server-side on logoff; replayed cookie rejected. Evidence: step6 test 13.
+ASD STIG V6R5,V-222579,medium,not_reviewed,not_a_finding,New system-generated session ID at every login; pre-login session discarded. Evidence: step6 test 6.
+ASD STIG V6R5,V-222580,medium,not_reviewed,not_a_finding,Session ID validated against the server-side sessions table on every request.
+ASD STIG V6R5,V-222581,medium,not_reviewed,not_a_finding,No URL-embedded session IDs.
+ASD STIG V6R5,V-222582,medium,not_reviewed,not_a_finding,"Session IDs are 256-bit random values, deleted at logout/timeout and never reused."
+ASD STIG V6R5,V-222583,medium,not_reviewed,not_a_finding,Session IDs from secrets.token_hex(32) (OS CSPRNG). Module FIPS validation tracked in R-01.
+ASD STIG V6R5,V-222584,medium,not_reviewed,open,"Certificate issued by a private lab CA, not a DoD-approved CA. POA&M R-02."
+ASD STIG V6R5,V-222585,high,not_reviewed,not_a_finding,"Fails secure: if storage or secret initialisation fails, the healthcheck fails and nginx does not start (depends_on: service_healthy)."
+ASD STIG V6R5,V-222586,medium,not_reviewed,not_a_finding,Failure information preserved: unhandled_error audit records with request ID; container logs retained.
+ASD STIG V6R5,V-222587,medium,open,not_a_finding,"Stored files encrypted with AES-256-GCM; keys never stored. Evidence: step2 tests 2, 5; 05-retest/2.8-manual."
+ASD STIG V6R5,V-222588,high,not_reviewed,not_a_finding,AES-GCM authentication tag detects modification of stored files.
+ASD STIG V6R5,V-222589,high,not_reviewed,not_a_finding,AES-256-GCM with per-file random keys protects stored information.
+ASD STIG V6R5,V-222590,medium,not_reviewed,not_a_finding,"Security functions isolated: TLS in nginx container, application logic in Flask container, no shared network."
+ASD STIG V6R5,V-222591,medium,not_reviewed,not_a_finding,Separate containers (namespaces) per process group.
+ASD STIG V6R5,V-222592,medium,not_reviewed,not_a_finding,Per-user file isolation; private /data volume; separate tmpfs per container.
+ASD STIG V6R5,V-222593,medium,not_reviewed,not_applicable,No XML processing.
+ASD STIG V6R5,V-222594,medium,not_reviewed,not_a_finding,"DoS restrictions: 10 MB upload limit, login rate limit (429), memory/CPU/PID limits, no outbound network."
+ASD STIG V6R5,V-222595,medium,not_reviewed,not_applicable,Not designated a high-availability system.
+ASD STIG V6R5,V-222596,high,not_reviewed,not_a_finding,TLS 1.2/1.3 protects transmitted information. Evidence: 05-retest/2.9-traffic (0 plaintext).
+ASD STIG V6R5,V-222597,medium,not_reviewed,not_a_finding,TLS AEAD ciphers prevent disclosure and detect modification in transit.
+ASD STIG V6R5,V-222598,medium,not_reviewed,not_a_finding,Data encrypted before transmission by TLS; files encrypted before storage.
+ASD STIG V6R5,V-222599,medium,not_reviewed,not_a_finding,TLS protects data during reception.
+ASD STIG V6R5,V-222600,medium,not_reviewed,not_a_finding,"No server version, internal paths or stack traces disclosed (server_tokens off, generic errors)."
+ASD STIG V6R5,V-222601,high,not_reviewed,not_a_finding,"Hidden fields hold only the CSRF token and file ID, neither of which grants access on its own."
+ASD STIG V6R5,V-222602,high,not_reviewed,not_a_finding,"XSS: Jinja auto-escaping, filename sanitisation, strict CSP without inline script. Evidence: step6 test 9."
+ASD STIG V6R5,V-222603,medium,not_reviewed,not_a_finding,CSRF tokens on every POST plus SameSite=Strict cookies. Evidence: step6 test 5.
+ASD STIG V6R5,V-222604,high,open,not_a_finding,"Backdoor removed; no subprocess/shell calls; Bandit clean. Evidence: step1, 05-retest/2.3-bandit."
+ASD STIG V6R5,V-222605,medium,not_reviewed,not_a_finding,Canonicalisation: filenames normalised by secure_filename; storage uses server-generated UUIDs.
+ASD STIG V6R5,V-222606,medium,open,not_a_finding,"All input validated: username regex, password policy, UUID format, key length, filename, upload size. Evidence: 05-retest/2.8-manual."
+ASD STIG V6R5,V-222607,high,not_reviewed,not_a_finding,"All SQL queries are parameterised (18 placeholders, no string-built SQL)."
+ASD STIG V6R5,V-222608,high,not_reviewed,not_applicable,No XML processing.
+ASD STIG V6R5,V-222609,high,open,not_a_finding,"Traversal, special and long filenames, empty and oversized files handled safely. Evidence: 05-retest/2.8-manual."
+ASD STIG V6R5,V-222610,medium,open,not_a_finding,Generic error messages with a reference ID; details only in the audit log. Evidence: step5 test 2.
+ASD STIG V6R5,V-222611,medium,not_reviewed,not_a_finding,Detailed errors only in the protected audit log (administrators).
+ASD STIG V6R5,V-222612,high,not_reviewed,not_a_finding,"Memory-safe runtime (Python); input sizes bounded (10 MB upload, 128-char passwords, 200-char filenames)."
+ASD STIG V6R5,V-222613,medium,not_reviewed,not_a_finding,Images rebuilt from scratch on update; pip removed after install.
+ASD STIG V6R5,V-222614,medium,open,not_a_finding,All available security updates applied (apt/apk upgrade); 0 fixable critical/high CVEs. Unfixable remainder tracked R-03/R-04.
+ASD STIG V6R5,V-222615,medium,not_reviewed,not_a_finding,Security functions verified by retest_local.sh and the 35-check test suite.
+ASD STIG V6R5,V-222616,medium,not_reviewed,open,Healthcheck verifies service availability but not security functions at startup. POA&M R-14.
+ASD STIG V6R5,V-222617,low,not_reviewed,open,No automatic notification of failed security tests. POA&M R-05.
+ASD STIG V6R5,V-222618,medium,not_reviewed,not_applicable,No Category 1A mobile code (only first-party JavaScript).
+ASD STIG V6R5,V-222619,medium,not_reviewed,open,Self-registration; no ISSO-approved account management process. POA&M R-08.
+ASD STIG V6R5,V-222620,high,not_reviewed,not_a_finding,Web server (nginx) and application (Flask) are separate containers; Flask has no network at all.
+ASD STIG V6R5,V-222621,medium,not_reviewed,open,Organisational: audit retention (30 months) not established. POA&M R-05/R-13.
+ASD STIG V6R5,V-222622,medium,not_reviewed,open,Organisational: periodic ISSO audit review. POA&M R-13.
+ASD STIG V6R5,V-222623,medium,not_reviewed,open,Organisational: violation reporting procedure. POA&M R-13.
+ASD STIG V6R5,V-222624,medium,not_reviewed,not_a_finding,Active vulnerability testing performed (Part 1 and Part 2 retest).
+ASD STIG V6R5,V-222625,medium,not_reviewed,not_applicable,No web services with deadlock/recursion concerns.
+ASD STIG V6R5,V-222626,medium,not_reviewed,not_a_finding,Configuration in /app and /etc (read-only); user data in the separate /data volume.
+ASD STIG V6R5,V-222627,medium,not_reviewed,not_a_finding,nginx configured following the Web Server SRG (no product-specific nginx STIG exists).
+ASD STIG V6R5,V-222628,medium,not_reviewed,open,Organisational: port/service registration. POA&M R-13.
+ASD STIG V6R5,V-222629,medium,not_reviewed,open,Organisational: DoD Ports and Protocols registration. POA&M R-13.
+ASD STIG V6R5,V-222630,medium,not_reviewed,open,Organisational: CM repository compliance. POA&M R-13.
+ASD STIG V6R5,V-222631,medium,not_reviewed,open,Organisational: CM access review. POA&M R-13.
+ASD STIG V6R5,V-222632,medium,not_reviewed,open,Organisational: SCM plan. POA&M R-13.
+ASD STIG V6R5,V-222633,medium,not_reviewed,open,Organisational: Configuration Control Board. POA&M R-13.
+ASD STIG V6R5,V-222634,medium,not_reviewed,not_a_finding,IPv6 supported: nginx published on [::]:80 and [::]:443. Evidence: 05-retest/2.2-infra.
+ASD STIG V6R5,V-222635,medium,not_reviewed,not_applicable,Not designated critical or high availability.
+ASD STIG V6R5,V-222636,medium,not_reviewed,open,Organisational: contingency plan. POA&M R-13.
+ASD STIG V6R5,V-222637,medium,not_reviewed,open,Organisational: documented secure recovery procedure. POA&M R-13.
+ASD STIG V6R5,V-222638,medium,not_reviewed,open,No data backup of the encrypted volume. POA&M R-15.
+ASD STIG V6R5,V-222639,medium,not_reviewed,open,Organisational: offsite source backup (GitHub provides an off-host copy). POA&M R-13.
+ASD STIG V6R5,V-222640,medium,not_reviewed,open,Organisational: backup protection procedures. POA&M R-15.
+ASD STIG V6R5,V-222641,medium,open,not_a_finding,TLS key exchange (ECDHE P-384/P-256) and server authentication before data exchange. Evidence: step3 tests 5-7.
+ASD STIG V6R5,V-222642,high,not_reviewed,not_a_finding,No embedded authentication data: hard-coded key removed; Bandit clean. Evidence: 05-retest/2.1-code.
+ASD STIG V6R5,V-222643,high,not_reviewed,not_applicable,No classified output.
+ASD STIG V6R5,V-222644,low,not_reviewed,not_a_finding,"Test procedures created and executed per change (step1-6 evidence scripts, retest_local.sh)."
+ASD STIG V6R5,V-222645,medium,not_reviewed,not_a_finding,Images are content-addressed by SHA-256; base image pinned by digest.
+ASD STIG V6R5,V-222646,medium,not_reviewed,not_a_finding,Part 2 team member designated as security tester alongside functional testing.
+ASD STIG V6R5,V-222647,low,not_reviewed,not_a_finding,"Initialisation, shutdown and abort tested (restart, kill PID 1, healthcheck recovery). Evidence: step4 test 10, step5 test 11."
+ASD STIG V6R5,V-222648,medium,not_reviewed,not_a_finding,Code review performed (Part 1 2.1 and Part 2 retest 2.1).
+ASD STIG V6R5,V-222649,low,not_reviewed,open,Code coverage statistics not maintained. POA&M R-13.
+ASD STIG V6R5,V-222650,medium,not_reviewed,not_a_finding,"Flaws tracked in the findings register, POA&M and git history."
+ASD STIG V6R5,V-222651,medium,not_reviewed,not_a_finding,Each change retested for security impact before the next (iterative process).
+ASD STIG V6R5,V-222652,medium,not_reviewed,not_a_finding,All flaws fixed or addressed in the POA&M.
+ASD STIG V6R5,V-222653,low,not_reviewed,open,Organisational: formal coding standard not adopted. POA&M R-13.
+ASD STIG V6R5,V-222654,low,not_reviewed,open,Design document limited to the Part 2 report. POA&M R-13.
+ASD STIG V6R5,V-222655,medium,not_reviewed,open,No formal threat model document. POA&M R-13.
+ASD STIG V6R5,V-222656,medium,not_reviewed,not_a_finding,Error handling: global handlers return generic messages; no stack traces. Evidence: step5 test 2.
+ASD STIG V6R5,V-222657,medium,not_reviewed,open,No incident response plan (the original key exfiltration shows the need). POA&M R-13.
+ASD STIG V6R5,V-222658,high,not_reviewed,not_a_finding,"Official, vendor-supported base images (python:3.13-slim, nginxinc/nginx-unprivileged)."
+ASD STIG V6R5,V-222659,high,not_reviewed,open,Organisational: decommissioning procedure. POA&M R-13.
+ASD STIG V6R5,V-222660,low,not_reviewed,open,Organisational: decommissioning notification. POA&M R-13.
+ASD STIG V6R5,V-222661,medium,not_reviewed,not_a_finding,No unnecessary built-in application accounts.
+ASD STIG V6R5,V-222662,high,not_reviewed,not_a_finding,No default passwords exist.
+ASD STIG V6R5,V-222663,medium,not_reviewed,open,Application Configuration Guide to be written (README). POA&M R-13.
+ASD STIG V6R5,V-222664,medium,not_reviewed,not_applicable,No classified data.
+ASD STIG V6R5,V-222665,medium,not_reviewed,not_a_finding,No uncategorised or emerging mobile code; only first-party JavaScript under CSP.
+ASD STIG V6R5,V-222666,medium,not_reviewed,not_applicable,No production database exports.
+ASD STIG V6R5,V-222667,medium,not_reviewed,not_a_finding,"DoS protections: rate limit, upload limit, resource limits."
+ASD STIG V6R5,V-222668,medium,not_reviewed,open,No low-resource alerting. POA&M R-05.
+ASD STIG V6R5,V-222669,low,not_reviewed,open,No administrator registered for update notifications (weekly rescan planned). POA&M R-03/R-04.
+ASD STIG V6R5,V-222670,low,not_reviewed,open,No automatic patch notification. POA&M R-03/R-04.
+ASD STIG V6R5,V-222671,medium,not_reviewed,open,Organisational: DMZ/network architecture for deployment. POA&M R-11.
+ASD STIG V6R5,V-222672,low,not_reviewed,not_a_finding,"session_created records include src_ip and evicted session count, so concurrent logons from different hosts are visible."
+ASD STIG V6R5,V-222673,medium,not_reviewed,open,Organisational: annual security training. POA&M R-13.
+ASD STIG V6R5,V-265634,medium,not_reviewed,not_applicable,No classified information.
+Web Server SRG V4R5,V-206350,medium,not_reviewed,not_a_finding,Simultaneous requests limited: nginx limit_req on login/register (429) and max 3 sessions per user.
+Web Server SRG V4R5,V-206351,medium,not_reviewed,not_a_finding,Server-side session management: sessions table validated on every request.
+Web Server SRG V4R5,V-206352,medium,not_reviewed,not_a_finding,TLS 1.2/1.3 with AES-128/256-GCM only (NIST SP 800-52r2). Evidence: step3 test 6.
+Web Server SRG V4R5,V-206353,medium,not_reviewed,not_a_finding,TLS AEAD suites provide integrity of remote sessions.
+Web Server SRG V4R5,V-206354,medium,not_reviewed,not_a_finding,"Access monitoring data: JSON access log with source, destination, TLS version/cipher, status, request ID."
+Web Server SRG V4R5,V-206355,medium,open,not_a_finding,"Authentication and per-user authorisation enforced for all application resources. Evidence: step6 tests 1, 8; 05-retest/3.0-auth."
+Web Server SRG V4R5,V-206356,medium,open,not_a_finding,"Startup/shutdown (app_start/app_stop), access (proxy_request/http_request) and authentication (login) events logged."
+Web Server SRG V4R5,V-206357,medium,not_reviewed,not_a_finding,Logging starts with the service (app_start record at startup).
+Web Server SRG V4R5,V-206359,medium,not_reviewed,not_a_finding,event field records the type of event.
+Web Server SRG V4R5,V-206360,medium,not_reviewed,not_a_finding,ts field: ISO-8601 date and time.
+Web Server SRG V4R5,V-206361,medium,not_reviewed,not_a_finding,uri/path fields record where in the server the event occurred.
+Web Server SRG V4R5,V-206362,medium,not_reviewed,not_a_finding,src_ip records the source of each event.
+Web Server SRG V4R5,V-206363,medium,not_reviewed,not_a_finding,"Behind nginx, Flask logs the real client IP via X-Forwarded-For (overwritten by nginx, spoof-proof). Evidence: step5 test 6."
+Web Server SRG V4R5,V-206364,medium,not_reviewed,not_a_finding,status/outcome fields record success or failure.
+Web Server SRG V4R5,V-206365,medium,not_reviewed,not_a_finding,"User identity in the application audit record, correlated with the nginx record by request_id. Evidence: step5 test 8."
+Web Server SRG V4R5,V-206366,medium,not_reviewed,open,No alerting on log processing failure. POA&M R-05.
+Web Server SRG V4R5,V-206367,medium,not_reviewed,not_a_finding,Timestamps from the host system clock.
+Web Server SRG V4R5,V-206368,medium,not_reviewed,not_a_finding,"nginx logs go to the container stdout (Docker, root/docker group only); app log 0600 appuser."
+Web Server SRG V4R5,V-206369,medium,not_reviewed,not_a_finding,Logs writable only by the logging process owner and host root.
+Web Server SRG V4R5,V-206370,medium,not_reviewed,not_a_finding,Logs deletable only by the logging process owner and host root. Off-host copy tracked R-05.
+Web Server SRG V4R5,V-206371,medium,not_reviewed,open,Log records not backed up to a different system. POA&M R-05.
+Web Server SRG V4R5,V-206372,medium,not_reviewed,not_a_finding,"Images content-addressed by SHA-256; base images from official sources, Flask base pinned by digest."
+Web Server SRG V4R5,V-206373,medium,not_reviewed,not_a_finding,No expansion modules loaded beyond the official nginx build.
+Web Server SRG V4R5,V-206374,medium,not_reviewed,not_a_finding,nginx performs no user management; accounts are handled by the application.
+Web Server SRG V4R5,V-206375,medium,not_reviewed,not_a_finding,Official unprivileged nginx image; only redirect and TLS reverse-proxy servers configured.
+Web Server SRG V4R5,V-206376,medium,not_reviewed,not_a_finding,"nginx acts only as a reverse proxy to the local application socket, not as a forward or open proxy."
+Web Server SRG V4R5,V-206377,medium,not_reviewed,not_a_finding,"Default site, documentation and samples not served (custom nginx.conf with no conf.d includes)."
+Web Server SRG V4R5,V-206378,medium,not_reviewed,not_a_finding,No web server accounts beyond the image's nginx user.
+Web Server SRG V4R5,V-206379,medium,not_reviewed,open,"Base image still contains utilities (busybox, curl). POA&M R-14 (minimal/distroless image)."
+Web Server SRG V4R5,V-206380,medium,not_reviewed,not_a_finding,No CGI or MIME mappings that invoke shell programs.
+Web Server SRG V4R5,V-206381,medium,not_reviewed,not_a_finding,No script handler mappings configured.
+Web Server SRG V4R5,V-206382,medium,not_reviewed,not_a_finding,No static file root is served; all requests are proxied to the application.
+Web Server SRG V4R5,V-206383,medium,not_reviewed,not_a_finding,WebDAV module not enabled.
+Web Server SRG V4R5,V-206384,medium,not_reviewed,not_a_finding,Application isolated in its own container with no network and no capabilities.
+Web Server SRG V4R5,V-206385,medium,not_reviewed,not_a_finding,No document root; the application runs confined in its own read-only container.
+Web Server SRG V4R5,V-206386,medium,not_reviewed,open,Fixed ports (8080/8443 mapped to 80/443) but bound to all host interfaces. POA&M R-11 (bind to a specific IP at deployment).
+Web Server SRG V4R5,V-206387,high,open,not_a_finding,Passwords only sent over TLS; HTTP redirects to HTTPS before any form is served. Evidence: step3 tests 2-3.
+Web Server SRG V4R5,V-206388,medium,not_reviewed,not_applicable,No client certificate authentication.
+Web Server SRG V4R5,V-206389,medium,not_reviewed,not_a_finding,"TLS private key mode 0640, group 101 (nginx) only, mounted read-only."
+Web Server SRG V4R5,V-206390,high,not_reviewed,open,FIPS-approved algorithms but not a FIPS 140-validated module. POA&M R-01.
+Web Server SRG V4R5,V-206391,medium,not_reviewed,open,FIPS-approved algorithms but not a FIPS 140-validated module. POA&M R-01.
+Web Server SRG V4R5,V-206392,medium,not_reviewed,not_a_finding,Only first-party JavaScript under a strict CSP; no unsigned or emerging mobile code.
+Web Server SRG V4R5,V-206393,medium,not_reviewed,not_a_finding,"nginx account is non-root with no login shell, read-only filesystem and no capabilities."
+Web Server SRG V4R5,V-206394,medium,not_reviewed,not_a_finding,No directories are served; anonymous users only reach the sign-in and registration pages.
+Web Server SRG V4R5,V-206395,medium,not_reviewed,not_a_finding,No web-based management interface; administration only via host/container CLI.
+Web Server SRG V4R5,V-206396,medium,not_reviewed,not_a_finding,Session identifiers invalidated server-side on logout and timeout. Evidence: step6 test 13.
+Web Server SRG V4R5,V-206397,medium,not_reviewed,not_a_finding,HttpOnly on the session cookie prevents script access.
+Web Server SRG V4R5,V-206398,medium,not_reviewed,not_a_finding,Only server-generated session IDs accepted; unknown IDs are discarded.
+Web Server SRG V4R5,V-206399,high,not_reviewed,not_a_finding,Session IDs from the OS CSPRNG (secrets.token_hex). Module validation tracked R-01.
+Web Server SRG V4R5,V-206400,medium,not_reviewed,not_a_finding,256-bit random session IDs cannot be reproduced.
+Web Server SRG V4R5,V-206401,medium,not_reviewed,not_a_finding,Session IDs are 64 hex characters (256 bits).
+Web Server SRG V4R5,V-206402,medium,not_reviewed,not_a_finding,"Session IDs carry 256 bits of entropy (full byte range, hex-encoded)."
+Web Server SRG V4R5,V-206403,medium,not_reviewed,not_a_finding,Entropy defined: 32 bytes from the CSPRNG.
+Web Server SRG V4R5,V-206404,medium,not_reviewed,not_a_finding,Baseline re-creation: docker compose build from pinned images and git-versioned configuration.
+Web Server SRG V4R5,V-206405,medium,not_reviewed,not_a_finding,Fails safe: nginx waits for a healthy app; failed startup leaves no service exposed.
+Web Server SRG V4R5,V-206406,medium,not_reviewed,not_applicable,Not a high-availability system; clustering not required.
+Web Server SRG V4R5,V-206407,medium,not_reviewed,not_a_finding,Information at rest encrypted with AES-256-GCM. Evidence: step2.
+Web Server SRG V4R5,V-206408,medium,not_reviewed,not_applicable,"No document root on the host filesystem (containerised, nothing served from disk)."
+Web Server SRG V4R5,V-206409,medium,not_reviewed,not_a_finding,Neither container can initiate outbound connections to other systems (Flask has no network).
+Web Server SRG V4R5,V-206410,medium,not_reviewed,not_a_finding,"Input character sets restricted: username regex, filename sanitisation, key format validation."
+Web Server SRG V4R5,V-206411,medium,not_reviewed,not_a_finding,No directory listing (autoindex off); unknown paths return a generic error page.
+Web Server SRG V4R5,V-206412,medium,not_reviewed,not_a_finding,server_tokens off; generic error pages. Evidence: step3 test 4.
+Web Server SRG V4R5,V-206413,medium,not_reviewed,not_a_finding,"Debug disabled: gunicorn in production mode, INFO log level, no stack traces."
+Web Server SRG V4R5,V-206414,medium,not_reviewed,not_a_finding,Absolute session timeout of 8 hours.
+Web Server SRG V4R5,V-206415,medium,not_reviewed,not_a_finding,Inactive session timeout of 15 minutes.
+Web Server SRG V4R5,V-206416,medium,not_reviewed,open,Organisational: remote access policy and enterprise tools. POA&M R-13.
+Web Server SRG V4R5,V-206417,medium,not_reviewed,not_a_finding,Only port 80 (redirect only) and 443 (TLS) accepted inbound.
+Web Server SRG V4R5,V-206418,medium,not_reviewed,not_a_finding,"Access can be cut immediately: docker compose stop, or disabling accounts and deleting sessions."
+Web Server SRG V4R5,V-206419,medium,not_reviewed,not_a_finding,"Non-privileged accounts cannot reach security-relevant files (read-only FS, 0600/0640 keys and logs)."
+Web Server SRG V4R5,V-206421,medium,not_reviewed,open,No log storage capacity planning or rotation. POA&M R-05.
+Web Server SRG V4R5,V-206422,medium,not_reviewed,not_a_finding,JSON logs on stdout and in a file; ready to forward to a log server.
+Web Server SRG V4R5,V-206423,medium,not_reviewed,open,Not integrated with an enterprise security infrastructure (SIEM/IdP). POA&M R-05/R-06.
+Web Server SRG V4R5,V-206424,medium,not_reviewed,open,No warning on log storage thresholds. POA&M R-05.
+Web Server SRG V4R5,V-206425,medium,not_reviewed,not_a_finding,nginx $time_iso8601 and app timestamps in UTC (+00:00).
+Web Server SRG V4R5,V-206426,medium,not_reviewed,not_a_finding,Timestamps at one-second granularity or better.
+Web Server SRG V4R5,V-206427,medium,not_reviewed,not_a_finding,Server binaries and configuration root-owned on a read-only filesystem.
+Web Server SRG V4R5,V-206428,medium,not_reviewed,not_a_finding,"Only 80 (redirect) and 443 (TLS) exposed; Flask has no port. Evidence: 05-retest/2.2-infra, 2.7-network."
+Web Server SRG V4R5,V-206430,medium,not_reviewed,not_applicable,No client certificates accepted.
+Web Server SRG V4R5,V-206431,high,not_reviewed,not_a_finding,User IDs and passwords encrypted in transit (TLS) and passwords hashed at rest (PBKDF2).
+Web Server SRG V4R5,V-206432,medium,not_reviewed,not_a_finding,Only host root/docker group can stop the containers.
+Web Server SRG V4R5,V-206433,medium,open,not_a_finding,"Tuned: upload limit, rate limiting, timeouts, memory/CPU/PID limits."
+Web Server SRG V4R5,V-206434,high,open,not_a_finding,"TLS 1.2/1.3 enforced; plain HTTP on 443 refused. Evidence: step3 tests 3, 5."
+Web Server SRG V4R5,V-206435,medium,not_reviewed,not_a_finding,"Session cookie only sent over TLS (Secure, __Host- prefix)."
+Web Server SRG V4R5,V-206436,medium,not_reviewed,not_a_finding,TLS compression disabled (OpenSSL default).
+Web Server SRG V4R5,V-206437,medium,not_reviewed,not_a_finding,"Cookie properties: Secure, HttpOnly, SameSite=Strict, Path=/."
+Web Server SRG V4R5,V-206438,medium,not_reviewed,not_a_finding,Cookie expiry follows the 15-minute session lifetime.
+Web Server SRG V4R5,V-206439,medium,open,not_a_finding,Controlled information encrypted in transit by TLS. Evidence: 05-retest/2.9-traffic.
+Web Server SRG V4R5,V-206440,medium,open,not_a_finding,"No export, NULL, RC4, 3DES or CBC ciphers offered. Evidence: step3 test 6."
+Web Server SRG V4R5,V-206441,medium,not_reviewed,not_a_finding,Integrity during preparation for transmission: TLS AEAD.
+Web Server SRG V4R5,V-206442,medium,not_reviewed,not_a_finding,Integrity during reception: TLS AEAD.
+Web Server SRG V4R5,V-206443,medium,open,not_a_finding,All available updates applied at build; remaining CVEs have no fix and are tracked for patching within 30 days (R-03/R-04).
+Web Server SRG V4R5,V-206444,medium,not_reviewed,not_a_finding,No default passwords; no web server login accounts.
+Web Server SRG V4R5,V-206445,medium,not_reviewed,not_a_finding,Configured against this Web Server SRG (no product-specific nginx STIG exists).
+Web Server SRG V4R5,V-239371,medium,not_reviewed,open,FIPS-approved algorithms but not a FIPS 140-validated module. POA&M R-01.
+Web Server SRG V4R5,V-264337,medium,not_reviewed,not_applicable,"Web server holds no user accounts (handled by the application, which disables inactive accounts)."
+Web Server SRG V4R5,V-264338,medium,not_reviewed,not_applicable,Web server holds no user accounts.
+Web Server SRG V4R5,V-264339,medium,not_reviewed,open,No central audit review across components. POA&M R-05.
+Web Server SRG V4R5,V-264340,medium,not_reviewed,open,No alerting on unauthorised access. POA&M R-05.
+Web Server SRG V4R5,V-264341,medium,not_reviewed,not_a_finding,"Enforcement actions logged: access_denied, csrf_check, account_lock, and nginx 429 responses."
+Web Server SRG V4R5,V-264342,medium,not_reviewed,not_applicable,No shared accounts.
+Web Server SRG V4R5,V-264343,medium,not_reviewed,open,No MFA for privileged access. POA&M R-06.
+Web Server SRG V4R5,V-264344,medium,not_reviewed,open,No MFA. POA&M R-06.
+Web Server SRG V4R5,V-264345,medium,not_reviewed,open,No list of commonly used or compromised passwords. POA&M R-07.
+Web Server SRG V4R5,V-264346,medium,not_reviewed,open,No compromised-password list to update. POA&M R-07.
+Web Server SRG V4R5,V-264347,medium,not_reviewed,open,No compromised-password list to update. POA&M R-07.
+Web Server SRG V4R5,V-264348,medium,not_reviewed,open,New passwords not checked against a compromised-password list. POA&M R-07.
+Web Server SRG V4R5,V-264349,medium,not_reviewed,not_a_finding,"Passwords stored with salted PBKDF2-SHA256, 600,000 iterations."
+Web Server SRG V4R5,V-264350,medium,not_reviewed,not_applicable,No account recovery function.
+Web Server SRG V4R5,V-264351,medium,not_reviewed,not_a_finding,"Passwords up to 128 characters, spaces and all printable characters allowed."
+Web Server SRG V4R5,V-264352,medium,not_reviewed,not_a_finding,Live password-rule checklist and password-manager support (standard autocomplete attributes).
+Web Server SRG V4R5,V-264353,medium,not_reviewed,not_a_finding,"Composition rules enforced (15+ chars, upper, lower, digit, special)."
+Web Server SRG V4R5,V-264354,medium,not_reviewed,not_applicable,No public-key user authentication.
+Web Server SRG V4R5,V-264355,medium,not_reviewed,not_applicable,No non-local maintenance sessions.
+Web Server SRG V4R5,V-264356,medium,not_reviewed,open,Trust anchor is a private lab CA. POA&M R-02.
+Web Server SRG V4R5,V-264357,medium,not_reviewed,open,TLS key protected by file permissions only (no HSM/key vault). POA&M R-02/R-09.
+Web Server SRG V4R5,V-264358,medium,not_reviewed,open,Host-level: clock synchronisation not verified. POA&M R-11.
+Web Server SRG V4R5,V-264359,medium,not_reviewed,open,Host-level: clock comparison with an authoritative source not configured. POA&M R-11.
+Web Server SRG V4R5,V-264360,medium,not_reviewed,not_applicable,No web management sessions.
+Web Server SRG V4R5,V-264361,medium,not_reviewed,open,Session source IP recorded but not enforced for the whole session. POA&M R-14.
+Web Server SRG V4R5,V-264362,medium,not_reviewed,not_a_finding,HTTP/2 enabled (http2 on) and negotiated by browsers via ALPN.
+Web Server SRG V4R5,V-264363,medium,not_reviewed,open,HTTP/1.1 still accepted for compatibility. POA&M R-14.
+Web Server SRG V4R5,V-264364,medium,not_reviewed,not_a_finding,Malformed or ambiguous requests rejected by nginx (400).
+Web Server SRG V4R5,V-264365,medium,not_reviewed,not_a_finding,Server-level exceptions return a generic 500 and are logged; connections are not left in an undefined state.
+Web Server SRG V4R5,V-264366,medium,not_reviewed,not_applicable,No forward proxy used.
+Web Server SRG V4R5,V-279028,medium,not_reviewed,not_applicable,No machine-to-machine source authentication required.
+Web Server SRG V4R5,V-279029,high,not_reviewed,not_a_finding,Vendor-supported nginx mainline release (1.31.7) from the official nginxinc image.
