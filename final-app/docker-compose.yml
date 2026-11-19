@@ -7,17 +7,33 @@ services:
       - ./logs:/app/logs
       # STEP 2 CHANGE (F-05): encrypted files persist across restarts
       - encrypted_data:/data
-    expose:
-      - "5000"
+    # STEP 3 CHANGE (F-07): Flask is ONLY on the internal backend network.
+    # It has no published ports and no route to the outside world, so the
+    # only way to reach it is through nginx over HTTPS. (The baseline showed
+    # it could be reached directly on http://172.23.0.2:5000.)
+    networks:
+      - backend
 
   nginx:
     build:
       context: .
       dockerfile: nginx_dockerfile
     ports:
-      - "443:443"
+      - "80:80"     # redirect-only
+      - "443:443"   # HTTPS
+    volumes:
+      # certificate + private key mounted read-only, never baked into the image
+      - ./certs:/etc/nginx/certs:ro
+    networks:
+      - frontend
+      - backend
     depends_on:
       - flask
+
+networks:
+  frontend:
+  backend:
+    internal: true   # no external connectivity
 
 volumes:
   encrypted_data:

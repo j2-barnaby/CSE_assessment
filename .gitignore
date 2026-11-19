@@ -4,3 +4,4 @@ nginx/certs/*.key
 evidence/03-triage/U_STIGViewer-linux-x64-3-8-1/
 evidence/03-triage/U_STIGViewer-linux-x64-3-8-1/
 final-app/logs/
+final-app/certs/nginx.key
